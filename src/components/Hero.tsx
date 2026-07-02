@@ -19,13 +19,13 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenLearningModal }) =
         {/* Content Centered via flex-1 */}
         <div className="flex-1 flex flex-col items-center justify-center text-center px-6 py-20 overflow-visible">
           {/* Headline */}
-          <h1 className="font-display font-normal text-[80px] sm:text-[120px] md:text-[180px] lg:text-[220px] leading-[1.02] tracking-[-0.024em] text-foreground animate-in fade-in slide-in-from-top-4 duration-1000">
-            Power <span className="glow-text-ai">AI</span>
+          <h1 className="font-display font-normal text-[70px] sm:text-[110px] md:text-[160px] lg:text-[200px] leading-[1.02] tracking-[-0.024em] text-foreground animate-in fade-in slide-in-from-top-4 duration-1000">
+            Power <span className="glow-text-ai">IT & AI</span>
           </h1>
 
           {/* Subtitle */}
-          <p className="text-hero-sub text-base sm:text-lg leading-relaxed sm:leading-8 max-w-md mt-[9px] opacity-80 font-medium">
-            The most powerful AI ever deployed <br className="hidden sm:inline" /> in talent acquisition
+          <p className="text-hero-sub text-base sm:text-lg leading-relaxed sm:leading-8 max-w-xl mt-[9px] opacity-80 font-medium">
+            Enterprise software development, cloud setups, and custom AI chatbots <br className="hidden sm:inline" /> engineered to scale your operations.
           </p>
 
           {/* CTA Button */}
