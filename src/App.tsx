@@ -126,6 +126,18 @@ function App() {
     };
   }, []);
 
+  // Pause or play background video depending on view state to save resources and match layout
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (view === 'home') {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  }, [view]);
+
   const handleNavigate = (target: string) => {
     // If navigating to core pages
     if (['home', 'services', 'solutions', 'plans', 'learning'].includes(target)) {
@@ -184,8 +196,8 @@ function App() {
   return (
     <div className="min-h-screen bg-background text-foreground antialiased selection:bg-[#a855f7]/30 selection:text-white overflow-x-hidden relative">
       
-      {/* Global Background Video */}
-      <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+      {/* Global Background Video - only visible on home view */}
+      <div className={`fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-0 transition-opacity duration-500 ${view === 'home' ? 'opacity-100' : 'opacity-0'}`}>
         <video
           ref={videoRef}
           src={videoUrl}
@@ -196,8 +208,10 @@ function App() {
         />
       </div>
 
-      {/* Global Blurred Overlay Shape (centered behind content) */}
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[984px] max-w-full h-[527px] opacity-90 bg-gray-950 blur-[82px] pointer-events-none z-5" />
+      {/* Global Blurred Overlay Shape (centered behind content) - only visible on home view */}
+      {view === 'home' && (
+        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[984px] max-w-full h-[527px] opacity-90 bg-gray-950 blur-[82px] pointer-events-none z-5" />
+      )}
 
       {/* Main Content Containers (sit on top at z-10) */}
       <div className="relative z-10 w-full min-h-screen flex flex-col justify-between">
@@ -224,7 +238,7 @@ function App() {
 
         {/* Services Sub-page */}
         {view === 'services' && (
-          <>
+          <div className="w-full min-h-screen bg-[#060415] flex flex-col justify-between">
             <Navbar 
               onNavigate={handleNavigate} 
               onOpenLearningModal={handleOpenLearningPage} 
@@ -234,12 +248,12 @@ function App() {
               onNavigateToContact={handleSelectPlan}
             />
             <Footer onNavigate={handleNavigate} />
-          </>
+          </div>
         )}
 
         {/* Solutions Sub-page */}
         {view === 'solutions' && (
-          <>
+          <div className="w-full min-h-screen bg-[#060415] flex flex-col justify-between">
             <Navbar 
               onNavigate={handleNavigate} 
               onOpenLearningModal={handleOpenLearningPage} 
@@ -249,12 +263,12 @@ function App() {
               onNavigateToContact={handleSelectPlan}
             />
             <Footer onNavigate={handleNavigate} />
-          </>
+          </div>
         )}
 
         {/* Plans/Pricing Sub-page */}
         {view === 'plans' && (
-          <>
+          <div className="w-full min-h-screen bg-[#060415] flex flex-col justify-between">
             <Navbar 
               onNavigate={handleNavigate} 
               onOpenLearningModal={handleOpenLearningPage} 
@@ -264,12 +278,12 @@ function App() {
               onSelectPlan={handleSelectPlan}
             />
             <Footer onNavigate={handleNavigate} />
-          </>
+          </div>
         )}
 
         {/* Developer Learning Portal Sub-page */}
         {view === 'learning' && (
-          <>
+          <div className="w-full min-h-screen bg-[#060415] flex flex-col justify-between">
             <Navbar 
               onNavigate={handleNavigate} 
               onOpenLearningModal={handleOpenLearningPage} 
@@ -279,7 +293,7 @@ function App() {
               activeTab={learningTab}
             />
             <Footer onNavigate={handleNavigate} />
-          </>
+          </div>
         )}
       </div>
 
