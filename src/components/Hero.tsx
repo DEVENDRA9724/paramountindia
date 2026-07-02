@@ -31,7 +31,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenLearningModal }) =
           {/* CTA Button */}
           <button
             onClick={() => onNavigate('contact')}
-            className="btn-hero-secondary rounded-2xl px-[29px] py-[24px] mt-[25px] text-base font-semibold tracking-wide"
+            className="btn-hero-secondary rounded-2xl px-[29px] py-[24px] mt-[25px] text-base font-semibold tracking-wide hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200"
           >
             Schedule a Consult
           </button>

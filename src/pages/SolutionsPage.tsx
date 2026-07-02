@@ -164,10 +164,20 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({ onBackToHome, onNa
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
           {caseStudies.map((study) => {
             const Icon = study.icon;
+            
+            const getHoverGlowClass = (id: string) => {
+              switch (id) {
+                case 'case-ai': return 'hover:border-[#a855f7]/30 hover:shadow-[0_0_25px_rgba(168,85,247,0.12)]';
+                case 'case-cloud': return 'hover:border-cyan-500/30 hover:shadow-[0_0_25px_rgba(6,182,212,0.12)]';
+                case 'case-crm': return 'hover:border-amber-500/30 hover:shadow-[0_0_25px_rgba(245,158,11,0.12)]';
+                default: return 'hover:border-white/20';
+              }
+            };
+
             return (
               <div 
                 key={study.id}
-                className="liquid-glass group rounded-2xl p-8 border border-white/5 hover:border-white/20 transition-all duration-300 flex flex-col justify-between"
+                className={`liquid-glass group rounded-2xl p-8 border border-white/5 transition-all duration-300 flex flex-col justify-between relative ${getHoverGlowClass(study.id)}`}
               >
                 {/* BACKLIGHT */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${study.glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl blur-md`} />

@@ -259,10 +259,21 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onBackToHome, onNavi
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredServices.map((service) => {
             const Icon = service.icon;
+            
+            const getHoverGlowClass = (cat: string) => {
+              switch (cat) {
+                case 'ai': return 'hover:border-[#a855f7]/30 hover:shadow-[0_0_25px_rgba(168,85,247,0.12)]';
+                case 'development': return 'hover:border-blue-500/30 hover:shadow-[0_0_25px_rgba(59,130,246,0.12)]';
+                case 'infra': return 'hover:border-cyan-500/30 hover:shadow-[0_0_25px_rgba(6,182,212,0.12)]';
+                case 'marketing': return 'hover:border-amber-500/30 hover:shadow-[0_0_25px_rgba(245,158,11,0.12)]';
+                default: return 'hover:border-white/20';
+              }
+            };
+
             return (
               <div 
                 key={service.id}
-                className="liquid-glass group rounded-2xl p-8 border border-white/5 hover:border-white/20 transition-all duration-300 flex flex-col justify-between h-full relative"
+                className={`liquid-glass group rounded-2xl p-8 border border-white/5 transition-all duration-300 flex flex-col justify-between h-full relative ${getHoverGlowClass(service.category)}`}
               >
                 {/* BACKLIGHT */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${service.glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl blur-md`} />

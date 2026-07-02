@@ -194,7 +194,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased selection:bg-[#a855f7]/30 selection:text-white overflow-x-hidden relative">
+    <div className="min-h-screen bg-background text-foreground antialiased selection:bg-[#a855f7]/30 selection:text-white overflow-x-hidden relative bg-grid-pattern">
       
       {/* Global Background Video - only visible on home view */}
       <div className={`fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-0 transition-opacity duration-500 ${view === 'home' ? 'opacity-100' : 'opacity-0'}`}>
@@ -218,7 +218,7 @@ function App() {
         
         {/* Home View */}
         {view === 'home' && (
-          <>
+          <div className="flex flex-col justify-between flex-1 animate-page-entry">
             <Hero 
               onNavigate={handleNavigate} 
               onOpenLearningModal={handleOpenLearningPage} 
@@ -233,12 +233,12 @@ function App() {
               prefillMessage={prefillContactMessage}
             />
             <Footer onNavigate={handleNavigate} />
-          </>
+          </div>
         )}
 
         {/* Services Sub-page */}
         {view === 'services' && (
-          <div className="w-full min-h-screen bg-[#060415] flex flex-col justify-between">
+          <div className="w-full min-h-screen bg-[#060415] bg-grid-pattern flex flex-col justify-between animate-page-entry">
             <Navbar 
               onNavigate={handleNavigate} 
               onOpenLearningModal={handleOpenLearningPage} 
@@ -253,7 +253,7 @@ function App() {
 
         {/* Solutions Sub-page */}
         {view === 'solutions' && (
-          <div className="w-full min-h-screen bg-[#060415] flex flex-col justify-between">
+          <div className="w-full min-h-screen bg-[#060415] bg-grid-pattern flex flex-col justify-between animate-page-entry">
             <Navbar 
               onNavigate={handleNavigate} 
               onOpenLearningModal={handleOpenLearningPage} 
@@ -268,7 +268,7 @@ function App() {
 
         {/* Plans/Pricing Sub-page */}
         {view === 'plans' && (
-          <div className="w-full min-h-screen bg-[#060415] flex flex-col justify-between">
+          <div className="w-full min-h-screen bg-[#060415] bg-grid-pattern flex flex-col justify-between animate-page-entry">
             <Navbar 
               onNavigate={handleNavigate} 
               onOpenLearningModal={handleOpenLearningPage} 
@@ -283,7 +283,7 @@ function App() {
 
         {/* Developer Learning Portal Sub-page */}
         {view === 'learning' && (
-          <div className="w-full min-h-screen bg-[#060415] flex flex-col justify-between">
+          <div className="w-full min-h-screen bg-[#060415] bg-grid-pattern flex flex-col justify-between animate-page-entry">
             <Navbar 
               onNavigate={handleNavigate} 
               onOpenLearningModal={handleOpenLearningPage} 
