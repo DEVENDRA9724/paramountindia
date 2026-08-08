@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   Code2, Smartphone, Globe, Layers, Cpu, Bot, Cloud,
   Network, Share2, Mail, Search, Palette, Box, Activity,
-  ArrowLeft, Terminal, ShieldAlert
+  ArrowLeft, Terminal, ShieldAlert, MessageSquare
 } from 'lucide-react';
 
 interface ServiceDetail {
@@ -81,6 +81,17 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onBackToHome, onNavi
       sla: 'Corporate spec custom SLA agreements, 24/7 uptime monitoring',
       deliverables: ['Architecture blueprint documents', 'Proprietary IP code licensing', 'Third-party hardware API linkages', 'Interactive administration panels'],
       glowColor: 'from-indigo-500/10 to-violet-500/10',
+    },
+    {
+      id: 'whatsapp-api',
+      title: 'WhatsApp API Integration & Automation',
+      description: 'Official Meta WhatsApp Business API integration, broadcast campaign workflows, and interactive customer notification bots.',
+      category: 'ai',
+      icon: MessageSquare,
+      techStack: ['Meta WhatsApp API', 'Node.js', 'Webhooks', 'Postman', 'Python', 'Redis'],
+      sla: '99.9% Webhook delivery SLA, instant automated response rules',
+      deliverables: ['Official WhatsApp Business API setup', 'Interactive template message triggers', 'Automated CRM sync on incoming leads', 'Broadcast campaign analytics console'],
+      glowColor: 'from-emerald-500/10 to-green-500/10',
     },
     {
       id: 'ai-bots',

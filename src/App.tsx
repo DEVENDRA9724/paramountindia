@@ -132,7 +132,7 @@ function App() {
               onOpenLearningModal={handleOpenLearningPage}
             />
             <HumanAiSynergy />
-            <Services />
+            <Services onNavigate={handleNavigate} />
             <Solutions />
             <InteractiveDemo />
             <Plans onSelectPlan={handleSelectPlan} />
