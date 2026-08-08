@@ -1,221 +1,90 @@
-import React, { useState } from 'react';
-import { 
-  Code2, Smartphone, Globe, Layers, Cpu, Bot, Cloud, 
-  Network, Share2, Mail, Search, Palette, Box, Activity 
-} from 'lucide-react';
+import React from 'react';
+import { Code2, Smartphone, Globe, Layers, Bot, Cloud, Server, ShieldCheck, ArrowRight } from 'lucide-react';
 
-interface ServiceItem {
-  id: string;
-  title: string;
-  description: string;
-  category: 'development' | 'ai' | 'infra' | 'marketing';
-  icon: React.ComponentType<any>;
-  glowColor: string;
-}
+const SERVICES = [
+  { id: 'software-dev', icon: Code2, title: 'Enterprise Software', desc: 'Custom back-office platforms, dashboards, and workflow automation systems built with scalable architecture.', tags: ['Node.js', 'React', 'PostgreSQL'] },
+  { id: 'mobile-app', icon: Smartphone, title: 'Mobile Development', desc: 'Native iOS and Android applications with high-performance animation frameworks and push notification systems.', tags: ['React Native', 'Swift', 'Kotlin'] },
+  { id: 'web-dev', icon: Globe, title: 'Web Development & SEO', desc: 'High-speed, SEO-optimized websites with sub-1.5s Core Web Vitals and 99.95% host uptime.', tags: ['Next.js', 'TypeScript', 'Vite'] },
+  { id: 'crm-dev', icon: Layers, title: 'CRM Integration', desc: 'End-to-end Salesforce, HubSpot, and custom CRM implementations with lead automation pipelines.', tags: ['Salesforce', 'HubSpot', 'REST'] },
+  { id: 'ai-bots', icon: Bot, title: 'AI Chatbot Agents', desc: 'NLP-powered autonomous agents trained on company data for 24/7 customer support and CRM sync.', tags: ['OpenAI', 'LangChain', 'Python'] },
+  { id: 'cloud-infra', icon: Cloud, title: 'Cloud Infrastructure', desc: 'Multi-zone AWS/GCP architecture, Kubernetes orchestration, and CI/CD pipelines with zero-downtime deploys.', tags: ['AWS', 'GCP', 'Docker'] },
+  { id: 'it-support', icon: Server, title: 'IT Asset Management', desc: 'Enterprise network infrastructure, Active Directory setups, and database migration services.', tags: ['Active Directory', 'SIEM', 'Linux'] },
+  { id: 'security', icon: ShieldCheck, title: 'Security & Compliance', desc: 'Database security audits, penetration testing, and data privacy compliance framework implementation.', tags: ['ISO 27001', 'VAPT', 'SOC2'] },
+];
+
+const CATEGORIES = ['All', 'Development', 'AI & Automation', 'Infrastructure'];
+
+const inter = "'Inter', system-ui, sans-serif";
 
 export const Services: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<string>('all');
-
-  const categories = [
-    { id: 'all', name: 'All Services' },
-    { id: 'development', name: 'Development' },
-    { id: 'ai', name: 'AI & Bots' },
-    { id: 'infra', name: 'Cloud & Infrastructure' },
-    { id: 'marketing', name: 'Marketing & SEO' },
-  ];
-
-  const servicesList: ServiceItem[] = [
-    {
-      id: 'software-dev',
-      title: 'Software Development',
-      description: 'Robust and scalable enterprise software solutions tailored to optimize your business operations and workflows.',
-      category: 'development',
-      icon: Code2,
-      glowColor: 'from-blue-500/20 to-indigo-500/20',
-    },
-    {
-      id: 'mobile-app',
-      title: 'Mobile Application Development',
-      description: 'High-performance native and cross-platform mobile apps for iOS and Android built with modern architectures.',
-      category: 'development',
-      icon: Smartphone,
-      glowColor: 'from-purple-500/20 to-pink-500/20',
-    },
-    {
-      id: 'web-dev',
-      title: 'Website Development',
-      description: 'Stunning, responsive, and SEO-optimized web experiences designed to engage visitors and drive conversions.',
-      category: 'development',
-      icon: Globe,
-      glowColor: 'from-teal-500/20 to-emerald-500/20',
-    },
-    {
-      id: 'crm-dev',
-      title: 'CRM Development & Integration',
-      description: 'Custom CRM systems engineered to manage customer relationships, automate sales pipelines, and track performance.',
-      category: 'development',
-      icon: Layers,
-      glowColor: 'from-amber-500/20 to-orange-500/20',
-    },
-    {
-      id: 'custom-software',
-      title: 'Custom Software Systems',
-      description: 'Tailor-made software built to resolve unique business bottlenecks where off-the-shelf software falls short.',
-      category: 'development',
-      icon: Cpu,
-      glowColor: 'from-indigo-500/20 to-violet-500/20',
-    },
-    {
-      id: 'ai-bots',
-      title: 'AI Bots, Chatbots & Agents',
-      description: 'State-of-the-art AI agents and chatbots configured to automate customer support, sales, and internal processes.',
-      category: 'ai',
-      icon: Bot,
-      glowColor: 'from-[#a855f7]/20 to-[#fcd34d]/20',
-    },
-    {
-      id: 'cloud-setup',
-      title: 'Cloud Infrastructure & Setup',
-      description: 'AWS, Azure, and Google Cloud setups designed for high availability, security, scalability, and cost optimization.',
-      category: 'infra',
-      icon: Cloud,
-      glowColor: 'from-sky-500/20 to-blue-500/20',
-    },
-    {
-      id: 'core-infra',
-      title: 'Core Company Infrastructure',
-      description: 'End-to-end office and enterprise network infrastructure setups, including server setups, firewalls, and active directory.',
-      category: 'infra',
-      icon: Network,
-      glowColor: 'from-cyan-500/20 to-teal-500/20',
-    },
-    {
-      id: 'digital-marketing',
-      title: 'Digital Marketing',
-      description: 'Results-driven digital campaigns, social media management, and paid advertising to boost your online visibility.',
-      category: 'marketing',
-      icon: Share2,
-      glowColor: 'from-rose-500/20 to-red-500/20',
-    },
-    {
-      id: 'email-marketing',
-      title: 'Email Marketing Campaigns',
-      description: 'Highly-personalized and automated email sequences designed to nurture leads, drive engagement, and improve retention.',
-      category: 'marketing',
-      icon: Mail,
-      glowColor: 'from-orange-500/20 to-rose-500/20',
-    },
-    {
-      id: 'seo-opt',
-      title: 'Search Engine Optimization (SEO)',
-      description: 'Comprehensive SEO audits, keyword ranking strategies, and content optimization to capture organic traffic.',
-      category: 'marketing',
-      icon: Search,
-      glowColor: 'from-green-500/20 to-emerald-500/20',
-    },
-    {
-      id: 'ui-ux',
-      title: 'UI/UX Design',
-      description: 'Intuitive user interfaces and immersive user experiences backed by rigorous user research and interactive mockups.',
-      category: 'marketing',
-      icon: Palette,
-      glowColor: 'from-fuchsia-500/20 to-purple-500/20',
-    },
-    {
-      id: 'it-asset',
-      title: 'IT Asset Management',
-      description: 'Software licensing tracking, hardware inventory oversight, cybersecurity compliance, and hardware lifecycle management.',
-      category: 'infra',
-      icon: Box,
-      glowColor: 'from-yellow-500/20 to-amber-500/20',
-    },
-    {
-      id: 'it-support',
-      title: 'IT Support & Infra Migration',
-      description: 'Seamless migration of legacy infrastructure to modern stacks, backed by 24/7 on-site and remote technical support.',
-      category: 'infra',
-      icon: Activity,
-      glowColor: 'from-emerald-500/20 to-teal-500/20',
-    },
-  ];
-
-  const filteredServices = activeCategory === 'all' 
-    ? servicesList 
-    : servicesList.filter(service => service.category === activeCategory);
+  const [activeFilter, setActiveFilter] = React.useState('All');
 
   return (
-    <section id="services" className="relative w-full py-24 px-6 md:px-12 bg-transparent overflow-visible">
-      {/* Blurred decorative backgrounds */}
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-indigo-950/10 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] bg-purple-950/10 blur-[120px] rounded-full pointer-events-none" />
+    <section id="services" className="w-full" style={{ background: '#f7f9fc', padding: '96px 0' }}>
+      <div className="max-w-6xl mx-auto px-6 md:px-12">
 
-      <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a855f7] bg-[#a855f7]/10 px-3 py-1 rounded-full">
-            Our Expertise
-          </span>
-          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight mt-6 mb-4">
-            Next-Gen IT & <span className="bg-gradient-to-r from-[#6366f1] via-[#a855f7] to-[#fcd34d] bg-clip-text text-transparent">AI Solutions</span>
-          </h2>
-          <p className="text-hero-sub text-base sm:text-lg max-w-2xl mx-auto opacity-75">
-            Paramount India Technologies LLP delivers end-to-end technical excellence, from modern web architectures to custom autonomous AI chatbot integrations.
-          </p>
+        <div style={{ marginBottom: 56 }}>
+          <div className="eyebrow-tag" style={{ marginBottom: 20 }}>Services</div>
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5">
+            <h2 style={{ fontFamily: inter, fontSize: 'clamp(26px, 3.8vw, 42px)', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1.12, color: '#17213d', maxWidth: 500 }}>
+              Full-Cycle IT Engineering & Automation
+            </h2>
+            <p style={{ fontFamily: inter, fontSize: 14, fontWeight: 400, lineHeight: 1.7, color: 'rgba(23,33,61,0.45)', maxWidth: 300 }}>
+              From custom software to autonomous AI agents — engineered for enterprise scale and reliability.
+            </p>
+          </div>
         </div>
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center items-center gap-3 mb-12">
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setActiveCategory(category.id)}
-              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeCategory === category.id
-                  ? 'bg-foreground text-background shadow-lg scale-105'
-                  : 'bg-white/5 text-foreground/80 hover:bg-white/10 hover:text-white border border-white/5'
-              }`}
-            >
-              {category.name}
+        {/* Filter tabs */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 36 }}>
+          {CATEGORIES.map(cat => (
+            <button key={cat} onClick={() => setActiveFilter(cat)}
+              style={{
+                fontFamily: inter, fontSize: 12, fontWeight: 600, letterSpacing: '0.04em',
+                padding: '6px 16px', borderRadius: 100,
+                background: activeFilter === cat ? '#315efb' : 'rgba(37,99,235,0.04)',
+                color: activeFilter === cat ? '#fff' : 'rgba(23,33,61,0.45)',
+                border: `1px solid ${activeFilter === cat ? '#315efb' : 'rgba(37,99,235,0.07)'}`,
+                cursor: 'pointer', transition: 'all 0.2s',
+              }}>
+              {cat}
             </button>
           ))}
         </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredServices.map((service) => {
-            const IconComponent = service.icon;
+        {/* Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {SERVICES.map((svc) => {
+            const Icon = svc.icon;
             return (
-              <div 
-                key={service.id}
-                className="liquid-glass group rounded-2xl p-8 hover:translate-y-[-4px] transition-all duration-300 border border-white/5 hover:border-white/25 flex flex-col justify-between"
-              >
-                {/* Glow backlight backing each card */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${service.glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl blur-md`} />
-                
-                <div className="relative z-10">
-                  {/* Icon Frame */}
-                  <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 mb-6 group-hover:bg-[#a855f7]/10 group-hover:border-[#a855f7]/30 transition-colors duration-300">
-                    <IconComponent className="w-6 h-6 text-foreground group-hover:text-[#a855f7] transition-colors duration-300" />
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="font-display text-xl font-semibold text-foreground mb-3 tracking-tight">
-                    {service.title}
+              <div key={svc.id} className="feature-card group cursor-pointer flex flex-col gap-4">
+                <div className="icon-box" style={{ width: 38, height: 38, borderRadius: 9 }}>
+                  <Icon style={{ width: 16, height: 16 }} />
+                </div>
+                <div>
+                  <h3 style={{ fontFamily: inter, fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', color: '#17213d', marginBottom: 8, lineHeight: 1.3 }}>
+                    {svc.title}
                   </h3>
-
-                  {/* Description */}
-                  <p className="text-hero-sub/90 text-sm leading-relaxed opacity-85">
-                    {service.description}
+                  <p style={{ fontFamily: inter, fontSize: 13, fontWeight: 400, lineHeight: 1.65, color: 'rgba(23,33,61,0.42)' }}>
+                    {svc.desc}
                   </p>
                 </div>
-
-                {/* Learn More link or decoration */}
-                <div className="relative z-10 mt-6 flex items-center gap-1.5 text-xs font-semibold text-[#a855f7] opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer">
-                  Request Info &rarr;
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 'auto' }}>
+                  {svc.tags.map(tag => (
+                    <span key={tag} className="tag-pill">{tag}</span>
+                  ))}
                 </div>
               </div>
             );
           })}
+        </div>
+
+        {/* CTA */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 40 }}>
+          <button className="btn-secondary" style={{ gap: 8 }}>
+            View All Services <ArrowRight style={{ width: 15, height: 15, opacity: 0.5 }} />
+          </button>
         </div>
       </div>
     </section>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Hero } from './components/Hero';
 import { Services } from './components/Services';
 import { Solutions } from './components/Solutions';
@@ -8,149 +8,72 @@ import { About } from './components/About';
 import { ContactForm } from './components/ContactForm';
 import { Footer } from './components/Footer';
 import { Navbar } from './components/Navbar';
+import { HumanAiSynergy } from './components/HumanAiSynergy';
 
 // Sub-pages imports
 import { ServicesPage } from './pages/ServicesPage';
 import { SolutionsPage } from './pages/SolutionsPage';
 import { PlansPage } from './pages/PlansPage';
 import { LearningPage } from './pages/LearningPage';
+import { SEOPage } from './pages/SEOPage';
+import { SitemapPage } from './pages/SitemapPage';
 
-type ViewType = 'home' | 'services' | 'solutions' | 'plans' | 'learning';
+type ViewType = 'home' | 'services' | 'solutions' | 'plans' | 'learning' | 'seo' | 'sitemap';
+
+const PATH_TO_VIEW: Record<string, ViewType> = {
+  '/': 'home', '/services': 'services', '/solutions': 'solutions', '/plans': 'plans',
+  '/learning': 'learning', '/seo': 'seo', '/sitemap': 'sitemap',
+};
+
+const VIEW_TO_PATH: Record<ViewType, string> = {
+  home: '/', services: '/services', solutions: '/solutions', plans: '/plans',
+  learning: '/learning', seo: '/seo', sitemap: '/sitemap',
+};
+
+const PAGE_META: Record<ViewType, { title: string; description: string }> = {
+  home: { title: 'Paramount India Technologies | Engineering Without Limits', description: 'Enterprise software, autonomous AI, cloud infrastructure and CRM engineering from Ahmedabad, India.' },
+  services: { title: 'Enterprise IT Services | Paramount India Technologies', description: 'Custom software, mobile apps, CRM integration, AI agents, cloud infrastructure and security services.' },
+  solutions: { title: 'Technology Solutions & Case Studies | Paramount India', description: 'Explore enterprise software, cloud, CRM and AI solution case studies from Paramount India Technologies.' },
+  plans: { title: 'IT Service Plans in INR | Paramount India Technologies', description: 'Transparent monthly and annual plans for software, SEO, AI automation, cloud and enterprise IT operations.' },
+  learning: { title: 'Knowledge Base & API Preview | Paramount India', description: 'Technical documentation, implementation examples, case summaries and a safe interactive API preview.' },
+  seo: { title: 'Technical SEO Services India | Paramount India Technologies', description: 'Technical SEO, Core Web Vitals, schema, local search and organic growth engineering for modern websites.' },
+  sitemap: { title: 'Site Map | Paramount India Technologies', description: 'Browse every Paramount India Technologies page and home-page section.' },
+};
 
 function App() {
-  const [view, setView] = useState<ViewType>('home');
+  const [view, setView] = useState<ViewType>(() => PATH_TO_VIEW[window.location.pathname] ?? 'home');
   const [learningTab, setLearningTab] = useState<string>('docs');
 
   // Prefill state for Consultation Form
   const [selectedPlanService, setSelectedPlanService] = useState('custom-software');
   const [prefillContactMessage, setPrefillContactMessage] = useState('');
 
-  // Global Video Player Refs
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const rafRef = useRef<number | null>(null);
-
-  const videoUrl = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_065045_c44942da-53c6-4804-b734-f9e07fc22e08.mp4';
-
-  // Global background video fade loop setup
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    // Reset video state
-    video.currentTime = 0;
-    video.style.opacity = '0';
-
-    const fadeDuration = 0.5; // in seconds
-
-    // Animation frame loop to control video opacity
-    const updateOpacity = () => {
-      if (video && !video.paused) {
-        const currentTime = video.currentTime;
-        const duration = video.duration;
-
-        if (duration && duration > 0) {
-          let opacity = 0;
-
-          if (currentTime < fadeDuration) {
-            // Fade-in at the start
-            opacity = currentTime / fadeDuration;
-          } else if (currentTime > duration - fadeDuration) {
-            // Fade-out at the end
-            opacity = (duration - currentTime) / fadeDuration;
-          } else {
-            // Full opacity in between
-            opacity = 1;
-          }
-
-          // Clamp opacity between 0 and 1
-          opacity = Math.max(0, Math.min(1, opacity));
-          video.style.opacity = opacity.toString();
-        }
-      }
-      rafRef.current = requestAnimationFrame(updateOpacity);
-    };
-
-    const handlePlay = () => {
-      rafRef.current = requestAnimationFrame(updateOpacity);
-    };
-
-    const handleEnded = () => {
-      // Clean up RAF loop temporarily
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
-
-      // Reset opacity to 0
-      video.style.opacity = '0';
-
-      // Wait 100ms, then replay
-      setTimeout(() => {
-        if (video) {
-          video.currentTime = 0;
-          video.play().catch((err) => {
-            console.warn('Video replay play promise interrupted:', err);
-          });
-        }
-      }, 100);
-    };
-
-    video.addEventListener('play', handlePlay);
-    video.addEventListener('ended', handleEnded);
-
-    // Start playback
-    video.play().catch((err) => {
-      console.warn('Video autoplay failed or was blocked by browser. Retrying on user interaction.', err);
-    });
-
-    const playVideo = () => {
-      if (video && video.paused) {
-        video.play().catch(() => {});
-      }
-    };
-
-    window.addEventListener('click', playVideo);
-    window.addEventListener('touchstart', playVideo);
-    window.addEventListener('scroll', playVideo);
-    window.addEventListener('mousemove', playVideo);
-
-    return () => {
-      video.removeEventListener('play', handlePlay);
-      video.removeEventListener('ended', handleEnded);
-      window.removeEventListener('click', playVideo);
-      window.removeEventListener('touchstart', playVideo);
-      window.removeEventListener('scroll', playVideo);
-      window.removeEventListener('mousemove', playVideo);
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
-    };
+    const handlePopState = () => setView(PATH_TO_VIEW[window.location.pathname] ?? 'home');
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Pause or play background video depending on view state to save resources and match layout
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (view === 'home') {
-      video.play().catch(() => {});
-    } else {
-      video.pause();
-    }
+    const meta = PAGE_META[view];
+    document.title = meta.title;
+    document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description);
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', `https://paramountindia.tech${VIEW_TO_PATH[view]}`);
   }, [view]);
 
   const handleNavigate = (target: string) => {
-    // If navigating to core pages
-    if (['home', 'services', 'solutions', 'plans', 'learning'].includes(target)) {
-      setView(target as ViewType);
+    if (['home', 'services', 'solutions', 'plans', 'learning', 'seo', 'sitemap'].includes(target)) {
+      const nextView = target as ViewType;
+      setView(nextView);
+      window.history.pushState({}, '', VIEW_TO_PATH[nextView]);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
-    // Scroll targets on homepage
     if (['contact', 'about', 'demo'].includes(target)) {
       if (view !== 'home') {
         setView('home');
-        // Let the homepage mount before scrolling
+        window.history.pushState({}, '', `/#${target}`);
         setTimeout(() => {
           const element = document.getElementById(target);
           if (element) {
@@ -158,6 +81,7 @@ function App() {
           }
         }, 100);
       } else {
+        window.history.replaceState({}, '', `/#${target}`);
         const element = document.getElementById(target);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
@@ -169,16 +93,16 @@ function App() {
   const handleOpenLearningPage = (tab: string) => {
     setLearningTab(tab);
     setView('learning');
+    window.history.pushState({}, '', '/learning');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSelectPlan = (planName: string, serviceId: string) => {
     setSelectedPlanService(serviceId);
-    setPrefillContactMessage(`Hi Devendra, I would like to schedule a technical callback to discuss the "${planName}" agreement for our operations.`);
-    
-    // Switch to home and scroll to contact
+    setPrefillContactMessage(`Interested in "${planName}". Please reach out to schedule a consultation.`);
     if (view !== 'home') {
       setView('home');
+      window.history.pushState({}, '', '/#contact');
       setTimeout(() => {
         const contactSection = document.getElementById('contact');
         if (contactSection) {
@@ -186,6 +110,7 @@ function App() {
         }
       }, 100);
     } else {
+      window.history.replaceState({}, '', '/#contact');
       const contactSection = document.getElementById('contact');
       if (contactSection) {
         contactSection.scrollIntoView({ behavior: 'smooth' });
@@ -194,41 +119,25 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased selection:bg-[#a855f7]/30 selection:text-white overflow-x-hidden relative bg-grid-pattern">
-      
-      {/* Global Background Video - only visible on home view */}
-      <div className={`fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-0 transition-opacity duration-500 ${view === 'home' ? 'opacity-100' : 'opacity-0'}`}>
-        <video
-          ref={videoRef}
-          src={videoUrl}
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-150"
-          style={{ opacity: 0 }}
-        />
-      </div>
+    <div className="min-h-screen text-foreground antialiased overflow-x-hidden" style={{ background: '#f7f9fc', color: '#17213d' }}>
 
-      {/* Global Blurred Overlay Shape (centered behind content) - only visible on home view */}
-      {view === 'home' && (
-        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[984px] max-w-full h-[527px] opacity-90 bg-gray-950 blur-[82px] pointer-events-none z-5" />
-      )}
-
-      {/* Main Content Containers (sit on top at z-10) */}
+      {/* Main Content Containers */}
       <div className="relative z-10 w-full min-h-screen flex flex-col justify-between">
-        
+
         {/* Home View */}
         {view === 'home' && (
           <div className="flex flex-col justify-between flex-1 animate-page-entry">
-            <Hero 
-              onNavigate={handleNavigate} 
-              onOpenLearningModal={handleOpenLearningPage} 
+            <Hero
+              onNavigate={handleNavigate}
+              onOpenLearningModal={handleOpenLearningPage}
             />
+            <HumanAiSynergy />
             <Services />
             <Solutions />
             <InteractiveDemo />
             <Plans onSelectPlan={handleSelectPlan} />
             <About />
-            <ContactForm 
+            <ContactForm
               selectedService={selectedPlanService}
               prefillMessage={prefillContactMessage}
             />
@@ -238,13 +147,14 @@ function App() {
 
         {/* Services Sub-page */}
         {view === 'services' && (
-          <div className="w-full min-h-screen bg-[#060415] bg-grid-pattern flex flex-col justify-between animate-page-entry">
-            <Navbar 
-              onNavigate={handleNavigate} 
-              onOpenLearningModal={handleOpenLearningPage} 
+          <div className="w-full min-h-screen flex flex-col justify-between animate-page-entry" style={{ background: '#f7f9fc' }}>
+            <Navbar
+              onNavigate={handleNavigate}
+              onOpenLearningModal={handleOpenLearningPage}
+              activePage="services"
             />
-            <ServicesPage 
-              onBackToHome={() => handleNavigate('home')} 
+            <ServicesPage
+              onBackToHome={() => handleNavigate('home')}
               onNavigateToContact={handleSelectPlan}
             />
             <Footer onNavigate={handleNavigate} />
@@ -253,50 +163,70 @@ function App() {
 
         {/* Solutions Sub-page */}
         {view === 'solutions' && (
-          <div className="w-full min-h-screen bg-[#060415] bg-grid-pattern flex flex-col justify-between animate-page-entry">
-            <Navbar 
-              onNavigate={handleNavigate} 
-              onOpenLearningModal={handleOpenLearningPage} 
+          <div className="w-full min-h-screen flex flex-col justify-between animate-page-entry" style={{ background: '#f7f9fc' }}>
+            <Navbar
+              onNavigate={handleNavigate}
+              onOpenLearningModal={handleOpenLearningPage}
+              activePage="solutions"
             />
-            <SolutionsPage 
-              onBackToHome={() => handleNavigate('home')} 
+            <SolutionsPage
+              onBackToHome={() => handleNavigate('home')}
               onNavigateToContact={handleSelectPlan}
             />
             <Footer onNavigate={handleNavigate} />
           </div>
         )}
 
-        {/* Plans/Pricing Sub-page */}
+        {/* Plans Sub-page */}
         {view === 'plans' && (
-          <div className="w-full min-h-screen bg-[#060415] bg-grid-pattern flex flex-col justify-between animate-page-entry">
-            <Navbar 
-              onNavigate={handleNavigate} 
-              onOpenLearningModal={handleOpenLearningPage} 
+          <div className="w-full min-h-screen flex flex-col justify-between animate-page-entry" style={{ background: '#f7f9fc' }}>
+            <Navbar
+              onNavigate={handleNavigate}
+              onOpenLearningModal={handleOpenLearningPage}
+              activePage="plans"
             />
-            <PlansPage 
-              onBackToHome={() => handleNavigate('home')} 
+            <PlansPage
+              onBackToHome={() => handleNavigate('home')}
               onSelectPlan={handleSelectPlan}
             />
             <Footer onNavigate={handleNavigate} />
           </div>
         )}
 
-        {/* Developer Learning Portal Sub-page */}
+        {/* Learning Sub-page */}
         {view === 'learning' && (
-          <div className="w-full min-h-screen bg-[#060415] bg-grid-pattern flex flex-col justify-between animate-page-entry">
-            <Navbar 
-              onNavigate={handleNavigate} 
-              onOpenLearningModal={handleOpenLearningPage} 
+          <div className="w-full min-h-screen flex flex-col justify-between animate-page-entry" style={{ background: '#f7f9fc' }}>
+            <Navbar
+              onNavigate={handleNavigate}
+              onOpenLearningModal={handleOpenLearningPage}
+              activePage="learning"
             />
-            <LearningPage 
-              onBackToHome={() => handleNavigate('home')} 
+            <LearningPage
               activeTab={learningTab}
+              onBackToHome={() => handleNavigate('home')}
+              onNavigateToContact={handleSelectPlan}
             />
             <Footer onNavigate={handleNavigate} />
           </div>
         )}
-      </div>
 
+        {view === 'seo' && (
+          <div className="w-full min-h-screen flex flex-col justify-between animate-page-entry" style={{ background: '#f7f9fc' }}>
+            <Navbar onNavigate={handleNavigate} onOpenLearningModal={handleOpenLearningPage} activePage="seo" />
+            <SEOPage onBackToHome={() => handleNavigate('home')} onNavigateToContact={() => handleNavigate('contact')} />
+            <Footer onNavigate={handleNavigate} />
+          </div>
+        )}
+
+        {view === 'sitemap' && (
+          <div className="w-full min-h-screen flex flex-col justify-between animate-page-entry" style={{ background: '#f7f9fc' }}>
+            <Navbar onNavigate={handleNavigate} onOpenLearningModal={handleOpenLearningPage} activePage="sitemap" />
+            <SitemapPage onBackToHome={() => handleNavigate('home')} />
+            <Footer onNavigate={handleNavigate} />
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }

@@ -1,109 +1,100 @@
 import React from 'react';
-import { ShieldCheck, Award, Eye, Users } from 'lucide-react';
+import { ShieldCheck, Award, Eye, ArrowUpRight } from 'lucide-react';
 
-export const About: React.FC = () => {
-  const values = [
-    {
-      icon: ShieldCheck,
-      title: 'Enterprise Security & Compliance',
-      description: 'We design all solutions with data security and compliance at the core, protecting valuable intellectual property.',
-    },
-    {
-      icon: Award,
-      title: 'Technical Competency',
-      description: 'Our engineering principles align with modern software frameworks, robust data protocols, and high availability systems.',
-    },
-    {
-      icon: Eye,
-      title: 'Client Vision First',
-      description: 'We translate complex business requirements into tangible IT outcomes, ensuring zero drift from project specifications.',
-    },
-  ];
+const inter = "'Inter', system-ui, sans-serif";
 
-  return (
-    <section id="about" className="relative w-full py-24 px-6 md:px-12 bg-transparent overflow-visible">
-      {/* Glow highlight */}
-      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-[#a855f7]/5 blur-[120px] rounded-full pointer-events-none" />
+const VALUES = [
+  { icon: ShieldCheck, title: 'Security-First Engineering', desc: 'Every system is designed with data security and compliance at its core.' },
+  { icon: Award, title: 'Technical Excellence', desc: 'We follow modern software engineering principles, robust protocols, and high-availability architecture.' },
+  { icon: Eye, title: 'Client Outcome Focus', desc: 'Complex business requirements translated into measurable IT outcomes with zero specification drift.' },
+];
 
-      <div className="max-w-6xl mx-auto">
-        {/* Layout split */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Left Column: Company Background */}
-          <div className="lg:col-span-7">
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a855f7] bg-[#a855f7]/10 px-3 py-1 rounded-full">
-              Who We Are
-            </span>
-            <h2 className="font-display text-4xl sm:text-5xl font-normal tracking-tight mt-6 mb-6">
-              Empowering Businesses via <br />
-              <span className="bg-gradient-to-r from-[#6366f1] via-[#a855f7] to-[#fcd34d] bg-clip-text text-transparent">Sophisticated Engineering</span>
-            </h2>
-            
-            <p className="text-hero-sub text-base leading-relaxed mb-6 opacity-85">
-              Paramount India Technologies LLP is a premier core IT company providing full-cycle technical operations, cloud migrations, database setups, and custom AI chatbots. We specialize in building reliable, cloud-native frameworks and custom CRM integrations that streamline modern business requirements.
-            </p>
+export const About: React.FC = () => (
+  <section id="about" className="w-full" style={{ background: '#f7f9fc', padding: '96px 0', borderTop: '1px solid rgba(37,99,235,0.05)' }}>
+    <div className="max-w-6xl mx-auto px-6 md:px-12">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
 
-            {/* Core Values grid */}
-            <div className="flex flex-col gap-6 mt-8">
-              {values.map((val, idx) => {
-                const Icon = val.icon;
-                return (
-                  <div key={idx} className="flex gap-4 items-start">
-                    <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 flex-shrink-0 mt-1">
-                      <Icon className="w-5 h-5 text-[#a855f7]" />
-                    </div>
-                    <div>
-                      <h4 className="font-display text-base font-semibold text-white mb-1">{val.title}</h4>
-                      <p className="text-xs text-hero-sub/80 leading-relaxed opacity-75">{val.description}</p>
-                    </div>
+        {/* Left */}
+        <div className="lg:col-span-6">
+          <div className="eyebrow-tag" style={{ marginBottom: 20 }}>About</div>
+          <h2 style={{ fontFamily: inter, fontSize: 'clamp(24px, 3.5vw, 40px)', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1.12, color: '#17213d', marginBottom: 20 }}>
+            Engineering Excellence at the Core of Every Project
+          </h2>
+          <p style={{ fontFamily: inter, fontSize: 15, fontWeight: 400, lineHeight: 1.75, color: 'rgba(23,33,61,0.45)', marginBottom: 36 }}>
+            Paramount India Technologies Pvt Ltd is a registered IT services company providing full-cycle technical operations — from cloud migrations and database architecture to custom AI agents and CRM integrations. Based in Ahmedabad, we serve enterprises across India and globally.
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            {VALUES.map((v, i) => {
+              const Icon = v.icon;
+              return (
+                <div key={i} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+                  <div className="icon-box" style={{ width: 36, height: 36, borderRadius: 9, flexShrink: 0, marginTop: 2 }}>
+                    <Icon style={{ width: 15, height: 15 }} />
                   </div>
-                );
-              })}
-            </div>
+                  <div>
+                    <h4 style={{ fontFamily: inter, fontSize: 14, fontWeight: 600, color: '#17213d', marginBottom: 4, letterSpacing: '-0.01em' }}>{v.title}</h4>
+                    <p style={{ fontFamily: inter, fontSize: 13, fontWeight: 400, lineHeight: 1.65, color: 'rgba(23,33,61,0.42)' }}>{v.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-
-          {/* Right Column: Founder Card (liquid-glass) */}
-          <div className="lg:col-span-5 relative">
-            {/* Ambient backlight */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#6366f1]/10 via-transparent to-[#a855f7]/10 rounded-3xl blur-xl" />
-            
-            <div className="liquid-glass relative z-10 rounded-3xl p-8 border border-white/5 flex flex-col justify-between h-full min-h-[420px]">
-              <div>
-                <div className="flex justify-between items-start mb-6">
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-[#fcd34d] bg-[#fcd34d]/10 px-2.5 py-1 rounded border border-[#fcd34d]/20">
-                    Founder Profile
-                  </span>
-                  <Users className="w-5 h-5 text-foreground/40" />
-                </div>
-
-                <h3 className="font-display text-2xl font-semibold text-white tracking-tight">
-                  Devendra Sharma
-                </h3>
-                <p className="text-xs text-[#a855f7] font-semibold uppercase tracking-[0.1em] mt-1 mb-6">
-                  Founder & Principal Director
-                </p>
-
-                <p className="text-sm text-hero-sub/90 leading-relaxed mb-6 font-medium opacity-85">
-                  "At Paramount India Technologies LLP, our mission is simple: to make technology a frictionless asset for enterprise growth. We build high-performance custom CRM systems, cloud architectures, and autonomous AI agents designed to seamlessly scale with your business demands. Our approach ensures that every migration, line of code, and deployment meets strict performance parameters."
-                </p>
-              </div>
-
-              {/* Stats / Details */}
-              <div className="grid grid-cols-2 gap-4 pt-6 border-t border-white/5 text-center">
-                <div>
-                  <span className="block text-2xl font-bold font-display text-white">LLP</span>
-                  <span className="text-[10px] text-foreground/50 uppercase tracking-widest">Legal Status</span>
-                </div>
-                <div>
-                  <span className="block text-2xl font-bold font-display text-[#a855f7]">14+</span>
-                  <span className="text-[10px] text-foreground/50 uppercase tracking-widest">IT Competencies</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
+
+        {/* Right */}
+        <div className="lg:col-span-6" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+
+          {/* Devendra */}
+          <div className="surface-card" style={{ padding: 24, borderRadius: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14 }}>
+              <div>
+                <h3 style={{ fontFamily: inter, fontSize: 17, fontWeight: 700, color: '#17213d', letterSpacing: '-0.015em', lineHeight: 1.2 }}>Devendra Sharma</h3>
+                <p style={{ fontFamily: inter, fontSize: 12, fontWeight: 500, color: '#315efb', marginTop: 4, letterSpacing: '0.01em' }}>Co-Founder & Director — Software & Cloud Architect</p>
+              </div>
+              <ArrowUpRight style={{ width: 16, height: 16, color: 'rgba(23,33,61,0.2)', marginTop: 2, flexShrink: 0 }} />
+            </div>
+            <p style={{ fontFamily: inter, fontSize: 13, fontWeight: 400, lineHeight: 1.7, fontStyle: 'italic', color: 'rgba(23,33,61,0.42)', borderLeft: '2px solid #315efb', paddingLeft: 14 }}>
+              "Our mission is to make core technology a frictionless asset for enterprise growth — from cloud infrastructure to autonomous AI systems engineered to scale."
+            </p>
+            <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid rgba(37,99,235,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontFamily: inter, fontSize: 11, color: 'rgba(23,33,61,0.28)' }}>Focus: Core Systems & Cloud Infrastructure</span>
+            </div>
+          </div>
+
+          {/* Nikita */}
+          <div className="surface-card" style={{ padding: 24, borderRadius: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14 }}>
+              <div>
+                <h3 style={{ fontFamily: inter, fontSize: 17, fontWeight: 700, color: '#17213d', letterSpacing: '-0.015em', lineHeight: 1.2 }}>Nikita Tejwani</h3>
+                <p style={{ fontFamily: inter, fontSize: 12, fontWeight: 500, color: '#c084fc', marginTop: 4, letterSpacing: '0.01em' }}>Co-Founder & Director — Growth & CRO Specialist</p>
+              </div>
+              <ArrowUpRight style={{ width: 16, height: 16, color: 'rgba(23,33,61,0.2)', marginTop: 2, flexShrink: 0 }} />
+            </div>
+            <p style={{ fontFamily: inter, fontSize: 13, fontWeight: 400, lineHeight: 1.7, fontStyle: 'italic', color: 'rgba(23,33,61,0.42)', borderLeft: '2px solid #a855f7', paddingLeft: 14 }}>
+              "Great engineering is half the equation — driving measurable ROI and client conversion is what scales a business. We ensure every platform yields top-line revenue."
+            </p>
+            <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid rgba(37,99,235,0.06)' }}>
+              <span style={{ fontFamily: inter, fontSize: 11, color: 'rgba(23,33,61,0.28)' }}>Focus: Performance Marketing & CRO Systems</span>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-3">
+            {[
+              { value: 'Pvt Ltd', label: 'Legal Status' },
+              { value: '14+', label: 'IT Domains' },
+              { value: '24/7', label: 'SLA Support' },
+            ].map(s => (
+              <div key={s.label} className="surface-card" style={{ padding: '16px 12px', borderRadius: 12, textAlign: 'center' }}>
+                <div style={{ fontFamily: inter, fontSize: 18, fontWeight: 700, color: '#17213d', letterSpacing: '-0.02em', lineHeight: 1 }}>{s.value}</div>
+                <div style={{ fontFamily: inter, fontSize: 10, fontWeight: 600, color: 'rgba(23,33,61,0.3)', letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: 6 }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);

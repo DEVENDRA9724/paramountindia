@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { X, BookOpen, Code, FileText, Check, Copy } from 'lucide-react';
 
+const inter = "'Inter', system-ui, sans-serif";
+
 interface LearningModalProps {
   isOpen: boolean;
   activeTab: string;
@@ -41,195 +43,108 @@ export const LearningModal: React.FC<LearningModalProps> = ({ isOpen, activeTab,
   };
 
   const clientScriptCode = `<!-- Paste this in the head of your index.html -->
-<script 
-  src="https://cdn.paramountindia.tech/agent.js" 
-  data-client-id="pmnt_devendra_9724734308" 
-  data-theme="dark"
+<script
+  src="https://cdn.paramountindia.tech/agent.js"
+  data-client-id="YOUR_CLIENT_ID"
+  data-theme="auto"
   async>
-</script>
-<script>
-  window.addEventListener('paramount-ready', () => {
-    window.ParamountAgent.init({
-      city: "Ahmedabad",
-      greeting: "Hello, looking for IT setups or software development?"
-    });
-  });
 </script>`;
 
   const apiRequestCode = `POST /v1/chat/agent/message HTTP/1.1
 Host: api.paramountindia.tech
-Authorization: Bearer pmnt_sec_9724734308_ahmedabad
+Authorization: Bearer YOUR_API_KEY
 Content-Type: application/json
 
 {
-  "sessionId": "session_user_8725",
-  "message": "We need custom software for CRM automation",
-  "context": {
-    "user_city": "Ahmedabad",
-    "owner": "Devendra Sharma"
-  }
-}`;
-
-  const apiResponseCode = `HTTP/1.1 200 OK
-Content-Type: application/json
-X-Response-Time: 120ms
-
-{
-  "status": "success",
-  "response": "At Paramount India Technologies LLP, we build custom enterprise CRMs syncing leads instantly. Book a callback with Devendra Sharma at +91 9724734308.",
-  "routingCode": "PROCEED_TO_SALES",
-  "metadata": {
-    "assignedAgent": "Paramount AI V2",
-    "locationScope": "Gujarat Office"
-  }
+  "query": "Need help with cloud setup and CRM migration",
+  "client_id": "enterprise_01"
 }`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
-      
-      {/* Modal Container */}
-      <div 
-        className="relative w-full max-w-4xl h-[85vh] liquid-glass border border-white/10 rounded-2xl flex flex-col md:flex-row overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300"
-        onClick={(e) => e.stopPropagation()}
-      >
-        
-        {/* Close button */}
-        <button 
-          onClick={onClose}
-          className="absolute top-4 right-4 z-20 p-2 text-foreground/50 hover:text-white bg-white/5 rounded-lg border border-white/5 transition-colors cursor-pointer"
-        >
-          <X className="w-5 h-5" />
-        </button>
+    <div style={{ position: 'fixed', inset: 0, zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(12px)' }}>
+      <div style={{ background: '#ffffff', border: '1px solid rgba(37,99,235,0.08)', borderRadius: 20, width: '100%', maxWidth: 760, maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 
-        {/* Sidebar Nav */}
-        <div className="w-full md:w-60 bg-white/[0.02] border-b md:border-b-0 md:border-r border-white/5 p-6 flex flex-col gap-6">
-          <div className="flex flex-col gap-1">
-            <span className="text-[10px] uppercase font-mono tracking-widest text-[#a855f7] font-bold">Developer Hub</span>
-            <h4 className="font-display text-lg font-bold text-white tracking-tight">Paramount Hub</h4>
+        {/* Header */}
+        <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(37,99,235,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <span style={{ fontFamily: inter, fontSize: 10, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#315efb' }}>Developer Hub</span>
+            <h3 style={{ fontFamily: inter, fontSize: 18, fontWeight: 700, color: '#17213d', marginTop: 2 }}>Paramount Technical Portal</h3>
           </div>
-
-          <div className="flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-x-visible pb-2 md:pb-0">
-            {tabs.map((tab) => {
-              const TabIcon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setCurrentTab(tab.id)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold tracking-wide transition-all whitespace-nowrap md:whitespace-normal cursor-pointer ${
-                    currentTab === tab.id
-                      ? 'bg-[#a855f7] text-white shadow-lg'
-                      : 'text-foreground/70 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  <TabIcon className="w-4 h-4 flex-shrink-0" />
-                  {tab.name}
-                </button>
-              );
-            })}
-          </div>
+          <button onClick={onClose} style={{ background: 'rgba(37,99,235,0.05)', border: '1px solid rgba(37,99,235,0.08)', borderRadius: 8, padding: 6, color: '#17213d', cursor: 'pointer' }}>
+            <X style={{ width: 18, height: 18 }} />
+          </button>
         </div>
 
-        {/* Main Content Area */}
-        <div className="flex-1 p-6 md:p-8 overflow-y-auto flex flex-col justify-between">
-          <div className="relative z-10">
-            {/* Documentation Tab */}
-            {currentTab === 'docs' && (
-              <div className="flex flex-col gap-5 animate-in fade-in duration-300">
-                <div>
-                  <h3 className="font-display text-2xl font-semibold text-white tracking-tight">Integration Guide</h3>
-                  <p className="text-xs text-foreground/50 mt-1">Embed Paramount Chatbot Agents directly on your business landing page.</p>
-                </div>
-                <p className="text-xs text-hero-sub/90 leading-relaxed">
-                  Integrating our chatbot script takes less than two minutes. Copy the client-side JavaScript snippet below and paste it before the closing <code>&lt;/head&gt;</code> tag on your platform. This loads the async widget which connects to your CRM endpoint automatically.
-                </p>
+        {/* Sub-nav */}
+        <div style={{ display: 'flex', gap: 6, padding: '12px 24px', borderBottom: '1px solid rgba(37,99,235,0.06)', background: 'rgba(37,99,235,0.02)' }}>
+          {tabs.map(t => {
+            const Icon = t.icon;
+            const active = currentTab === t.id;
+            return (
+              <button key={t.id} onClick={() => setCurrentTab(t.id)}
+                style={{
+                  fontFamily: inter, fontSize: 12, fontWeight: 600, padding: '6px 14px', borderRadius: 8,
+                  background: active ? '#315efb' : 'transparent', color: active ? '#fff' : 'rgba(23,33,61,0.45)',
+                  border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6,
+                }}>
+                <Icon style={{ width: 14, height: 14 }} /> {t.name}
+              </button>
+            );
+          })}
+        </div>
 
-                {/* Code Block */}
-                <div className="relative bg-black/60 rounded-xl p-4 border border-white/5 font-mono text-[10px] leading-relaxed text-emerald-400 overflow-x-auto">
-                  <button 
-                    onClick={() => handleCopyCode(clientScriptCode)}
-                    className="absolute top-3.5 right-3.5 p-1.5 bg-white/5 hover:bg-white/10 rounded border border-white/5 text-foreground transition-colors cursor-pointer"
-                  >
-                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                  </button>
-                  <pre>{clientScriptCode}</pre>
-                </div>
-
-                <div className="p-4 rounded-xl bg-white/5 border border-white/5 text-xs text-hero-sub/80 leading-relaxed">
-                  <span className="font-bold text-white block mb-1">Configuration parameters:</span>
-                  - <code>data-client-id</code>: Identifies your partner profile setup by director Devendra Sharma.<br />
-                  - <code>city</code>: Locates server nodes in our cloud networks (default: Ahmedabad).
-                </div>
+        {/* Content Body */}
+        <div style={{ flex: 1, padding: 24, overflowY: 'auto' }}>
+          {currentTab === 'docs' && (
+            <div>
+              <h4 style={{ fontFamily: inter, fontSize: 15, fontWeight: 600, color: '#17213d', marginBottom: 8 }}>AI Chat Widget Integration</h4>
+              <p style={{ fontFamily: inter, fontSize: 13, color: 'rgba(23,33,61,0.45)', lineHeight: 1.6, marginBottom: 16 }}>
+                Copy and paste this script tag into the head section of your site HTML:
+              </p>
+              <div style={{ background: '#f7f9fc', border: '1px solid rgba(37,99,235,0.08)', borderRadius: 10, padding: 16, position: 'relative' }}>
+                <button onClick={() => handleCopyCode(clientScriptCode)}
+                  style={{ position: 'absolute', top: 10, right: 10, fontFamily: inter, fontSize: 11, color: 'rgba(23,33,61,0.5)', background: 'rgba(37,99,235,0.06)', border: 'none', padding: '3px 8px', borderRadius: 6, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}>
+                  {copied ? <Check style={{ width: 12, height: 12, color: '#00a88f' }} /> : <Copy style={{ width: 12, height: 12 }} />}
+                  {copied ? 'Copied' : 'Copy'}
+                </button>
+                <pre style={{ fontFamily: 'monospace', fontSize: 12, color: '#315efb', margin: 0, overflowX: 'auto', lineHeight: 1.6 }}>
+                  {clientScriptCode}
+                </pre>
               </div>
-            )}
+            </div>
+          )}
 
-            {/* Case Studies Tab */}
-            {currentTab === 'cases' && (
-              <div className="flex flex-col gap-6 animate-in fade-in duration-300">
-                <div>
-                  <h3 className="font-display text-2xl font-semibold text-white tracking-tight">Operational Cases</h3>
-                  <p className="text-xs text-foreground/50 mt-1">Detailed summaries of core IT migrations and cloud architectures.</p>
+          {currentTab === 'cases' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {[
+                { title: 'Full-Stack ERP System', desc: 'Custom Node.js + React digitizing company workflows.' },
+                { title: 'AWS Cloud Infrastructure', desc: 'Kubernetes cluster failover and Terraform IaC.' },
+                { title: 'Salesforce CRM Sync', desc: 'Real-time lead scoring and automated webhook distribution.' },
+              ].map((c, i) => (
+                <div key={i} style={{ background: 'rgba(37,99,235,0.02)', border: '1px solid rgba(37,99,235,0.06)', padding: 16, borderRadius: 12 }}>
+                  <h4 style={{ fontFamily: inter, fontSize: 14, fontWeight: 600, color: '#17213d', marginBottom: 4 }}>{c.title}</h4>
+                  <p style={{ fontFamily: inter, fontSize: 12, color: 'rgba(23,33,61,0.45)', margin: 0 }}>{c.desc}</p>
                 </div>
+              ))}
+            </div>
+          )}
 
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="p-4 rounded-xl bg-white/5 border border-white/5 flex flex-col gap-2">
-                    <span className="text-xs font-bold text-white">CASE-972: CRM Migration for Ahmedabad Retailer</span>
-                    <p className="text-[11px] text-hero-sub/80 leading-relaxed">
-                      Migrated a 50,000-user database from legacy Excel systems to an automated, custom-tailored Salesforce sync model. The integration includes on-site training, cloud database hardening, and CRM pipeline automation.
-                    </p>
-                    <span className="text-[10px] text-[#a855f7] font-semibold mt-1">Outcome: 100% data fidelity & 30% pipeline response speedup.</span>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-white/5 border border-white/5 flex flex-col gap-2">
-                    <span className="text-xs font-bold text-white">CASE-343: Kubernetes Cloud Re-architecture</span>
-                    <p className="text-[11px] text-hero-sub/80 leading-relaxed">
-                      Configured core network setup, server load balancers, and AWS Kubernetes clustering for a high-traffic e-commerce hub, ensuring scaling during traffic spikes.
-                    </p>
-                    <span className="text-[10px] text-[#a855f7] font-semibold mt-1">Outcome: 0% down-time during holiday sales traffic spikes.</span>
-                  </div>
-                </div>
+          {currentTab === 'api' && (
+            <div>
+              <h4 style={{ fontFamily: inter, fontSize: 15, fontWeight: 600, color: '#17213d', marginBottom: 8 }}>REST API Request Endpoint</h4>
+              <div style={{ background: '#f7f9fc', border: '1px solid rgba(37,99,235,0.08)', borderRadius: 10, padding: 16 }}>
+                <pre style={{ fontFamily: 'monospace', fontSize: 12, color: '#00a88f', margin: 0, overflowX: 'auto', lineHeight: 1.6 }}>
+                  {apiRequestCode}
+                </pre>
               </div>
-            )}
+            </div>
+          )}
+        </div>
 
-            {/* API Reference Tab */}
-            {currentTab === 'api' && (
-              <div className="flex flex-col gap-5 animate-in fade-in duration-300">
-                <div>
-                  <h3 className="font-display text-2xl font-semibold text-white tracking-tight">AI Agent API</h3>
-                  <p className="text-xs text-foreground/50 mt-1">Interact with chatbot services programmatically via HTTP REST calls.</p>
-                </div>
-
-                <div className="flex flex-col gap-4">
-                  {/* Request block */}
-                  <div>
-                    <span className="text-[10px] font-bold text-[#a855f7] uppercase tracking-wider block mb-2">Request Endpoint</span>
-                    <div className="bg-black/60 rounded-xl p-4 border border-white/5 font-mono text-[10px] text-[#fcd34d] overflow-x-auto relative">
-                      <button 
-                        onClick={() => handleCopyCode(apiRequestCode)}
-                        className="absolute top-3.5 right-3.5 p-1.5 bg-white/5 hover:bg-white/10 rounded border border-white/5 text-foreground transition-colors cursor-pointer"
-                      >
-                        {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                      </button>
-                      <pre>{apiRequestCode}</pre>
-                    </div>
-                  </div>
-
-                  {/* Response block */}
-                  <div>
-                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block mb-2">Response Payload</span>
-                    <div className="bg-black/60 rounded-xl p-4 border border-white/5 font-mono text-[10px] text-cyan-400 overflow-x-auto">
-                      <pre>{apiResponseCode}</pre>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="mt-8 pt-4 border-t border-white/5 flex justify-between items-center text-[10px] text-foreground/45 relative z-10">
-            <span>Paramount India Technologies LLP &bull; Director Desk</span>
-            <span>Mobile Support: +91 9724734308</span>
-          </div>
-
+        {/* Footer */}
+        <div style={{ padding: '16px 24px', borderTop: '1px solid rgba(37,99,235,0.06)', background: 'rgba(37,99,235,0.01)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontFamily: inter, fontSize: 11, color: 'rgba(23,33,61,0.35)' }}>Paramount India Technologies Pvt Ltd • Support +91 76006 47428</span>
+          <button onClick={onClose} className="btn-secondary" style={{ padding: '6px 14px', fontSize: 12 }}>Close</button>
         </div>
 
       </div>

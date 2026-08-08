@@ -1,258 +1,206 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Check, X, ChevronDown, ChevronUp, Calendar, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Check, Info } from 'lucide-react';
+
+const inter = "'Inter', system-ui, sans-serif";
 
 interface PlansPageProps {
   onBackToHome: () => void;
   onSelectPlan: (planName: string, serviceId: string) => void;
 }
 
-interface AccordionItem {
-  q: string;
-  a: string;
-}
-
 export const PlansPage: React.FC<PlansPageProps> = ({ onBackToHome, onSelectPlan }) => {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('annual');
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
-  const toggleFaq = (index: number) => {
-    setOpenFaqIndex(openFaqIndex === index ? null : index);
-  };
-
-  const pricingTiers = [
+  const plans = [
     {
+      id: 'starter',
       name: 'Starter Setup',
-      id: 'plan-starter',
       monthlyPrice: '₹34,999',
       annualPrice: '₹27,999',
-      desc: 'Perfect for small local businesses requiring initial websites, local SEO keyword rankings, and basic customer chatbot support.',
+      desc: 'For growing businesses needing a solid digital foundation.',
       serviceId: 'web-dev',
+      features: [
+        'Custom Website Development (React/Vite)',
+        'Local SEO & Google Business Optimization',
+        'Basic Email Marketing & Automation Setup',
+        'NLP Support AI Chatbot (Web Widget)',
+        'Chat & Email Support (9am–6pm IST)',
+        'Quarterly Uptime & Performance Audits',
+      ],
       isPopular: false,
-      glowColor: 'from-[#6366f1]/10 to-transparent',
     },
     {
+      id: 'growth',
       name: 'Growth Suite',
-      id: 'plan-growth',
       monthlyPrice: '₹99,999',
       annualPrice: '₹79,999',
-      desc: 'For scaling companies requiring custom back-office dashboards, mobile applications, CRM integrations, and advanced AI agents.',
+      desc: 'Comprehensive stack for companies scaling their tech operations.',
       serviceId: 'custom-software',
+      features: [
+        'Custom Software & CRM Pipeline Integration',
+        'Native Mobile App (React Native iOS/Android)',
+        'Advanced AI Bots + CRM Lead Sync',
+        'Technical SEO & Performance Marketing',
+        'AWS/GCP Multi-Region Cloud Architecture',
+        '24/7 Priority SLA Support & Incident Hotline',
+        'Monthly Code Security & Compliance Audits',
+      ],
       isPopular: true,
-      glowColor: 'from-[#a855f7]/20 to-[#6366f1]/20',
     },
     {
-      name: 'Enterprise Operations',
-      id: 'plan-enterprise',
+      id: 'enterprise',
+      name: 'Enterprise Custom',
       monthlyPrice: 'Custom',
       annualPrice: 'Custom',
-      desc: 'Designed for corporate infrastructure, database server migrations, full software licensing management, and dedicated developers.',
+      desc: 'Full IT outsourcing, compliance, and dedicated engineering team.',
       serviceId: 'it-support',
+      features: [
+        'Dedicated Full-Stack Engineering Team',
+        'Enterprise IT Asset Management & Licensing',
+        'On-site Office Network & Active Directory Setup',
+        'Full Database VAPT & Security Audits',
+        'Unlimited Custom AI Agent Intent Tuning',
+        'Dedicated Technical Account Manager + Custom SLA',
+        'Direct Founder Escalation Window',
+      ],
       isPopular: false,
-      glowColor: 'from-[#fcd34d]/15 to-transparent',
     },
   ];
 
-  const comparisonRows = [
-    { name: 'Custom React Web Development', starter: '5 Pages max', growth: 'Unlimited pages', enterprise: 'Dedicated developers' },
-    { name: 'Custom CRM Pipeline Integration', starter: false, growth: 'Salesforce / HubSpot API', enterprise: 'Any custom database / API' },
-    { name: 'AI Chatbot & Autonomous Agent', starter: 'Basic NLP support', growth: 'Fully trained & CRM synced', enterprise: 'Unlimited custom training models' },
-    { name: 'Mobile App Development (iOS/Android)', starter: false, growth: 'React Native / Flutter', enterprise: 'Fully custom native architectures' },
-    { name: 'Cloud Infrastructure Configurations', starter: 'Basic hosting setup', growth: 'AWS/GCP Auto-scaling VPC', enterprise: 'Enterprise replication & clusters' },
-    { name: 'IT Asset & License Management', starter: false, growth: 'Included', enterprise: 'Full MDM Intune setups' },
-    { name: 'Technical support SLA', starter: 'Next-day email/chat', growth: '4hr critical bug hotfix', enterprise: '1hr immediate support on-call' },
-    { name: 'Ahmedabad On-Site Support Migrations', starter: false, growth: 'Available on request', enterprise: 'Fully included 24/7' },
-  ];
-
-  const faqs: AccordionItem[] = [
+  const faqs = [
     {
-      q: 'Who owns the proprietary source code and intellectual property?',
-      a: 'The client holds 100% of the proprietary source code and intellectual property rights. Upon project sign-off and completion of terms, our team handovers the complete codebase repository, Docker files, and licensing keys directly to your organization.',
+      q: 'Are contract agreements flexible?',
+      a: 'Yes. We offer both month-to-month service agreements and discounted annual terms with a 20% savings.',
     },
     {
-      q: 'Can we transition between service tiers or terminate agreements?',
-      a: 'Yes. Agreements operate on a rolling monthly or annual timeline. You can upgrade, scale down, or transition between Starter, Growth, and Enterprise packages. Downgrades or terminations require a 30-day notice period before the next billing cycle.',
+      q: 'How does the 24/7 SLA monitoring work?',
+      a: 'Growth and Enterprise tiers include automated monitoring alerts that trigger incident response protocols within 15 minutes of an anomaly.',
     },
     {
-      q: 'Are on-site technical support migrations available in Ahmedabad?',
-      a: 'Absolutely. Paramount India Technologies LLP is headquartered in Ahmedabad, Gujarat. We provide on-site network infrastructure setups, database cabinet migrations, and face-to-face training workshops for teams under our Growth and Enterprise agreements.',
-    },
-    {
-      q: 'Which CRM databases and applications do your AI bots support?',
-      a: 'We construct API connectors syncing our AI agents with Salesforce, HubSpot, custom PostgreSQL/MongoDB databases, active directories, Slack channels, and standard REST API webhooks.',
+      q: 'Can we request on-site hardware support in India?',
+      a: 'Absolutely. Paramount India Technologies Pvt Ltd is headquartered in Ahmedabad, Gujarat. We provide on-site network infrastructure setups and migration workshops for teams under our Growth and Enterprise agreements.',
     },
   ];
 
   return (
-    <div className="w-full min-h-screen bg-transparent relative overflow-visible py-12 px-6 md:px-12">
-      <div className="max-w-6xl mx-auto relative z-10">
-        
-        {/* Back navigation */}
-        <button 
+    <div style={{ background: '#f7f9fc', minHeight: '100vh', padding: '48px 0 96px 0', color: '#17213d' }}>
+      <div className="max-w-6xl mx-auto px-6 md:px-12">
+
+        {/* Back button */}
+        <button
           onClick={onBackToHome}
-          className="flex items-center gap-2 text-xs font-semibold text-[#a855f7] hover:text-white transition-colors duration-200 mb-10 cursor-pointer"
+          style={{ fontFamily: inter, fontSize: 12, fontWeight: 600, color: '#315efb', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 40 }}
         >
-          <ArrowLeft className="w-4 h-4" /> BACK TO HOMEPAGE
+          <ArrowLeft style={{ width: 14, height: 14 }} /> BACK TO HOMEPAGE
         </button>
 
         {/* Title */}
-        <div className="mb-16">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a855f7] bg-[#a855f7]/10 px-3 py-1 rounded-full">
-            Contract Terms & Pricing Matrix
-          </span>
-          <h1 className="font-display text-4xl sm:text-6xl font-normal tracking-tight mt-6 mb-4">
-            Service Tiers & <span className="bg-gradient-to-r from-[#6366f1] via-[#a855f7] to-[#fcd34d] bg-clip-text text-transparent">Agreements</span>
+        <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div className="eyebrow-tag" style={{ marginBottom: 16, display: 'inline-flex' }}>Pricing &amp; Agreements</div>
+          <h1 style={{ fontFamily: inter, fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1.1, color: '#17213d', marginBottom: 16 }}>
+            Transparent Engineering Plans
           </h1>
-          <p className="text-hero-sub text-base sm:text-lg max-w-3xl opacity-75 font-medium">
-            Compare service features, compare database options, and review agreement parameters for startups and enterprises.
+          <p style={{ fontFamily: inter, fontSize: 15, fontWeight: 400, lineHeight: 1.7, color: 'rgba(23,33,61,0.45)', maxWidth: 500, margin: '0 auto' }}>
+            Structured service agreements designed for startups through enterprise IT operations.
           </p>
-        </div>
 
-        {/* Billing cycle toggle */}
-        <div className="flex justify-center items-center gap-4 mb-16 select-none">
-          <span className={`text-sm font-medium ${billingCycle === 'monthly' ? 'text-white' : 'text-foreground/50'}`}>Monthly Billing</span>
-          <button
-            onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'annual' : 'monthly')}
-            className="w-14 h-7 rounded-full bg-white/10 p-1 flex items-center transition-all duration-300 relative border border-white/5 cursor-pointer"
-          >
-            <div className={`w-5 h-5 rounded-full bg-white shadow-md transform transition-transform duration-300 ${billingCycle === 'annual' ? 'translate-x-7' : 'translate-x-0'}`} />
-          </button>
-          <div className="flex items-center gap-2">
-            <span className={`text-sm font-medium ${billingCycle === 'annual' ? 'text-white' : 'text-foreground/50'}`}>Annual Billing</span>
-            <span className="text-[10px] font-bold text-[#a855f7] bg-[#a855f7]/10 border border-[#a855f7]/25 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-              Save 20%
-            </span>
+          {/* Toggle */}
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 32, padding: 4, borderRadius: 10, background: 'rgba(37,99,235,0.04)', border: '1px solid rgba(37,99,235,0.07)' }}>
+            {(['monthly', 'annual'] as const).map(cycle => (
+              <button key={cycle} onClick={() => setBillingCycle(cycle)}
+                style={{
+                  fontFamily: inter, fontSize: 12, fontWeight: 600, padding: '8px 20px', borderRadius: 8,
+                  background: billingCycle === cycle ? '#315efb' : 'transparent',
+                  color: billingCycle === cycle ? '#fff' : 'rgba(23,33,61,0.45)',
+                  border: 'none', cursor: 'pointer', transition: 'all 0.2s',
+                }}>
+                {cycle === 'monthly' ? 'Monthly Billing' : 'Annual Billing (Save 20%)'}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Pricing Cards (Standardized) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch mb-24">
-          {pricingTiers.map((tier) => {
-            const price = billingCycle === 'annual' ? tier.annualPrice : tier.monthlyPrice;
-            const isCustom = price.includes('Custom');
-
+        {/* Plans Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6" style={{ marginBottom: 72 }}>
+          {plans.map(plan => {
+            const price = billingCycle === 'annual' ? plan.annualPrice : plan.monthlyPrice;
+            const isCustom = price === 'Custom';
             return (
-              <div 
-                key={tier.id}
-                className={`liquid-glass rounded-3xl p-8 border hover:translate-y-[-4px] transition-all duration-300 flex flex-col justify-between relative ${
-                  tier.isPopular ? 'border-[#a855f7]/40 shadow-[0_0_30px_rgba(168,85,247,0.15)] scale-105 md:scale-105 z-10' : 'border-white/5 hover:border-white/20'
-                }`}
-              >
-                {/* Backlight glow */}
-                <div className={`absolute inset-0 bg-gradient-to-b ${tier.glowColor} opacity-50 pointer-events-none rounded-3xl`} />
+              <div key={plan.id} className="surface-card" style={{
+                padding: 32, borderRadius: 16, display: 'flex', flexDirection: 'column',
+                border: plan.isPopular ? '1px solid rgba(99,102,241,0.35)' : '1px solid rgba(37,99,235,0.07)',
+                background: plan.isPopular ? 'rgba(99,102,241,0.06)' : '#ffffff',
+                position: 'relative',
+              }}>
+                {plan.isPopular && (
+                  <span style={{
+                    position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)',
+                    fontFamily: inter, fontSize: 11, fontWeight: 600, color: '#fff', background: '#315efb',
+                    padding: '4px 14px', borderRadius: 100,
+                  }}>
+                    Most Popular
+                  </span>
+                )}
 
-                <div className="relative z-10">
-                  <div className="flex justify-between items-center mb-6">
-                    <span className="text-sm font-bold text-white uppercase tracking-tight">{tier.name}</span>
-                    {tier.isPopular && <span className="text-[9px] uppercase font-mono tracking-widest text-[#a855f7] bg-[#a855f7]/10 border border-[#a855f7]/20 px-2 py-0.5 rounded">Popular</span>}
-                  </div>
+                <span style={{ fontFamily: inter, fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(23,33,61,0.4)', marginBottom: 12 }}>
+                  {plan.name}
+                </span>
 
-                  <div className="flex items-baseline gap-1.5 mb-4">
-                    <span className="font-display text-4xl font-bold text-white tracking-tight">{price}</span>
-                    {!isCustom && <span className="text-xs text-foreground/50 font-medium">/ month</span>}
-                  </div>
-                  <p className="text-xs text-hero-sub/90 leading-relaxed opacity-75 mb-8 font-medium">{tier.desc}</p>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 10 }}>
+                  <span style={{ fontFamily: inter, fontSize: 36, fontWeight: 700, letterSpacing: '-0.03em', color: '#17213d', lineHeight: 1 }}>
+                    {price}
+                  </span>
+                  {!isCustom && <span style={{ fontFamily: inter, fontSize: 13, color: 'rgba(23,33,61,0.4)' }}>INR / month + GST</span>}
                 </div>
 
-                <button
-                  onClick={() => onSelectPlan(tier.name, tier.serviceId)}
-                  className={`w-full py-3.5 px-4 rounded-xl text-xs font-semibold tracking-wider transition-all duration-300 cursor-pointer relative z-10 ${
-                    tier.isPopular ? 'bg-[#a855f7] text-white hover:bg-[#a855f7]/95 shadow-[0_4px_20px_rgba(168,85,247,0.3)]' : 'bg-white/5 text-white hover:bg-white/10 border border-white/5'
-                  }`}
-                >
-                  {isCustom ? 'Inquire Custom Terms' : 'Select Plan'}
+                <p style={{ fontFamily: inter, fontSize: 13, fontWeight: 400, lineHeight: 1.6, color: 'rgba(23,33,61,0.45)', marginBottom: 24 }}>
+                  {plan.desc}
+                </p>
+
+                <div style={{ height: 1, background: 'rgba(37,99,235,0.06)', marginBottom: 24 }} />
+
+                <ul style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 32, flex: 1 }}>
+                  {plan.features.map(f => (
+                    <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                      <Check style={{ width: 14, height: 14, color: '#315efb', flexShrink: 0, marginTop: 3 }} />
+                      <span style={{ fontFamily: inter, fontSize: 13, fontWeight: 400, lineHeight: 1.5, color: 'rgba(23,33,61,0.6)' }}>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <button onClick={() => onSelectPlan(plan.name, plan.serviceId)}
+                  className={plan.isPopular ? 'btn-primary' : 'btn-secondary'}
+                  style={{ width: '100%', justifyContent: 'center' }}>
+                  {isCustom ? 'Request Proposal' : 'Get Started'}
                 </button>
+
+                {billingCycle === 'annual' && !isCustom && (
+                  <p style={{ fontFamily: inter, fontSize: 11, color: 'rgba(23,33,61,0.3)', textAlign: 'center', marginTop: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+                    <Info style={{ width: 12, height: 12 }} /> Billed annually
+                  </p>
+                )}
               </div>
             );
           })}
         </div>
 
-        {/* Feature Comparison Matrix */}
-        <div className="mb-24 overflow-x-auto border border-white/5 rounded-2xl liquid-glass relative z-10">
-          <table className="w-full min-w-[700px] border-collapse text-left text-sm">
-            <thead>
-              <tr className="border-b border-white/5 bg-white/[0.02]">
-                <th className="p-5 font-display text-xs font-bold text-white uppercase tracking-widest">Service Deliverable</th>
-                <th className="p-5 font-display text-xs font-bold text-white uppercase tracking-widest">Starter Setup</th>
-                <th className="p-5 font-display text-xs font-bold text-[#a855f7] uppercase tracking-widest">Growth Suite</th>
-                <th className="p-5 font-display text-xs font-bold text-white uppercase tracking-widest">Enterprise Ops</th>
-              </tr>
-            </thead>
-            <tbody>
-              {comparisonRows.map((row, idx) => (
-                <tr key={idx} className="border-b border-white/5 hover:bg-white/[0.01] transition-colors">
-                  <td className="p-5 font-semibold text-white/90 text-xs">{row.name}</td>
-                  <td className="p-5 text-xs text-hero-sub font-medium">
-                    {typeof row.starter === 'string' ? row.starter : row.starter ? <Check className="w-4 h-4 text-emerald-400" /> : <X className="w-4 h-4 text-red-400" />}
-                  </td>
-                  <td className="p-5 text-xs text-[#a855f7] font-semibold">
-                    {typeof row.growth === 'string' ? row.growth : row.growth ? <Check className="w-4 h-4 text-emerald-400" /> : <X className="w-4 h-4 text-red-400" />}
-                  </td>
-                  <td className="p-5 text-xs text-hero-sub font-medium">
-                    {typeof row.enterprise === 'string' ? row.enterprise : row.enterprise ? <Check className="w-4 h-4 text-emerald-400" /> : <X className="w-4 h-4 text-red-400" />}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Service Agreement FAQ (Accordion) */}
-        <div className="mb-16 relative z-10">
-          <div className="text-center mb-16">
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a855f7] bg-[#a855f7]/10 px-3 py-1 rounded-full flex items-center gap-1.5 w-fit mx-auto">
-              <ShieldCheck className="w-3.5 h-3.5" /> Legal & Contract FAQ
-            </span>
-            <h2 className="font-display text-3xl sm:text-5xl font-normal tracking-tight mt-6 mb-4">
-              Agreement <span className="bg-gradient-to-r from-[#6366f1] via-[#a855f7] to-[#fcd34d] bg-clip-text text-transparent">Details & FAQs</span>
-            </h2>
-            <p className="text-hero-sub text-sm max-w-xl mx-auto opacity-75 font-medium">
-              Read transparent clarifications about code directories handover, support terms, and locations billing parameters.
-            </p>
+        {/* FAQs */}
+        <div style={{ maxWidth: 700, margin: '0 auto' }}>
+          <h2 style={{ fontFamily: inter, fontSize: 20, fontWeight: 700, letterSpacing: '-0.02em', color: '#17213d', textAlign: 'center', marginBottom: 24 }}>
+            Frequently Asked Questions
+          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {faqs.map((faq, i) => (
+              <div key={i} className="surface-card" style={{ padding: 20, borderRadius: 14 }}>
+                <h3 style={{ fontFamily: inter, fontSize: 15, fontWeight: 600, color: '#17213d', marginBottom: 8, letterSpacing: '-0.01em' }}>
+                  {faq.q}
+                </h3>
+                <p style={{ fontFamily: inter, fontSize: 13, fontWeight: 400, lineHeight: 1.65, color: 'rgba(23,33,61,0.45)' }}>
+                  {faq.a}
+                </p>
+              </div>
+            ))}
           </div>
-
-          <div className="max-w-3xl mx-auto flex flex-col gap-4">
-            {faqs.map((faq, idx) => {
-              const isOpen = openFaqIndex === idx;
-              return (
-                <div 
-                  key={idx} 
-                  className="liquid-glass rounded-xl border border-white/5 overflow-hidden transition-all duration-300"
-                >
-                  <button
-                    onClick={() => toggleFaq(idx)}
-                    className="w-full p-6 text-left flex justify-between items-center gap-4 text-white hover:text-[#a855f7] transition-colors cursor-pointer"
-                  >
-                    <span className="text-sm font-semibold tracking-tight">{faq.q}</span>
-                    {isOpen ? <ChevronUp className="w-4 h-4 text-[#a855f7] flex-shrink-0" /> : <ChevronDown className="w-4 h-4 text-foreground/40 flex-shrink-0" />}
-                  </button>
-                  {isOpen && (
-                    <div className="px-6 pb-6 text-xs text-hero-sub/90 leading-relaxed border-t border-white/5 pt-4 bg-white/[0.01] animate-in fade-in duration-300 font-medium">
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Callback CTA */}
-        <div className="p-8 md:p-12 rounded-3xl bg-gradient-to-br from-white/[0.01] to-white/[0.03] border border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left relative overflow-hidden z-10">
-          <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#6366f1]/5 blur-[80px] rounded-full pointer-events-none" />
-          <div>
-            <h3 className="font-display text-2xl font-bold text-white tracking-tight mb-2 flex items-center gap-2 justify-center md:justify-start">
-              <Calendar className="w-5 h-5 text-[#a855f7]" /> Need Custom Contract Layouts?
-            </h3>
-            <p className="text-xs text-hero-sub/90 max-w-md leading-relaxed opacity-85 font-medium">
-              For businesses requesting mixed structures (e.g. Starter web design but Enterprise technical SLA support), we provide customized IT partnership covenants.
-            </p>
-          </div>
-          <button
-            onClick={() => onSelectPlan('Custom Mixed Agreement', 'it-support')}
-            className="btn-hero-secondary rounded-2xl px-6 py-4 text-xs font-semibold whitespace-nowrap cursor-pointer relative z-10 animate-pulse hover:animate-none"
-          >
-            Draft Custom Scope &rarr;
-          </button>
         </div>
 
       </div>

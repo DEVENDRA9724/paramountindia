@@ -20,17 +20,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedService = 'cus
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  
-  // Stored schedule details to show in success message
   const [scheduledDetails, setScheduledDetails] = useState({ date: '', timeSlot: '' });
 
-  // Sync props to state when they change (e.g. when user clicks "Select Plan")
   useEffect(() => {
-    setFormData((prev) => ({
-      ...prev,
-      service: selectedService,
-      message: prefillMessage,
-    }));
+    setFormData(prev => ({ ...prev, service: selectedService, message: prefillMessage }));
   }, [selectedService, prefillMessage]);
 
   const services = [
@@ -44,313 +37,176 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedService = 'cus
   ];
 
   const timeSlots = [
-    { id: 'morning', name: 'Morning (9 AM - 12 PM)' },
-    { id: 'afternoon', name: 'Afternoon (12 PM - 4 PM)' },
-    { id: 'evening', name: 'Evening (4 PM - 7 PM)' },
+    { id: 'morning', name: 'Morning (9 AM–12 PM)' },
+    { id: 'afternoon', name: 'Afternoon (12 PM–4 PM)' },
+    { id: 'evening', name: 'Evening (4 PM–7 PM)' },
   ];
 
   const validate = () => {
-    const newErrors: { [key: string]: string } = {};
-
-    if (!formData.name.trim()) newErrors.name = 'Full Name is required';
-    
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email address is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
-
-    if (!formData.phone.trim()) {
-      newErrors.phone = 'Phone number is required';
-    } else if (!/^\+?[0-9\s\-()]{8,16}$/.test(formData.phone)) {
-      newErrors.phone = 'Please enter a valid phone number';
-    }
-
-    if (!formData.date) {
-      newErrors.date = 'Callback date selection is required';
-    } else {
-      const selected = new Date(formData.date);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      if (selected < today) {
-        newErrors.date = 'Preferred Date cannot be in the past';
-      }
-    }
-
-    if (!formData.message.trim()) newErrors.message = 'Please describe your project requirements';
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    const errs: { [key: string]: string } = {};
+    if (!formData.name.trim()) errs.name = 'Full name is required';
+    if (!formData.email.trim()) errs.email = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) errs.email = 'Enter a valid email';
+    if (!formData.phone.trim()) errs.phone = 'Phone number is required';
+    if (!formData.date) errs.date = 'Please select a callback date';
+    if (!formData.message.trim()) errs.message = 'Please describe your requirements';
+    setErrors(errs);
+    return Object.keys(errs).length === 0;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error as user types
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }));
-    }
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-
     setIsSubmitting(true);
-
-    // Save scheduled details
-    const chosenSlot = timeSlots.find(slot => slot.id === formData.timeSlot)?.name || '';
-    setScheduledDetails({
-      date: formData.date,
-      timeSlot: chosenSlot
-    });
-
-    // Simulate server submission
+    const chosenSlot = timeSlots.find(s => s.id === formData.timeSlot)?.name || '';
+    setScheduledDetails({ date: formData.date, timeSlot: chosenSlot });
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        service: 'custom-software',
-        date: '',
-        timeSlot: 'morning',
-        message: '',
-      });
-    }, 1500);
+      setFormData({ name: '', email: '', phone: '', service: 'custom-software', date: '', timeSlot: 'morning', message: '' });
+    }, 1200);
   };
 
   return (
-    <section id="contact" className="relative w-full py-24 px-6 md:px-12 bg-transparent overflow-visible">
-      {/* Decorative gradients */}
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[#6366f1]/5 blur-[120px] rounded-full pointer-events-none" />
-
+    <section id="contact" className="w-full py-24 px-6 md:px-12" style={{ background: '#eef3ff' }}>
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
-          
-          {/* Left Column: Office details */}
-          <div className="lg:col-span-5 flex flex-col justify-between">
-            <div>
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a855f7] bg-[#a855f7]/10 px-3 py-1 rounded-full">
-                Get In Touch
-              </span>
-              <h2 className="font-display text-4xl sm:text-5xl font-normal tracking-tight mt-6 mb-4">
-                Schedule a <br />
-                <span className="bg-gradient-to-r from-[#6366f1] via-[#a855f7] to-[#fcd34d] bg-clip-text text-transparent">Tech Consult</span>
-              </h2>
-              <p className="text-hero-sub text-base leading-relaxed opacity-75 mb-8 font-medium animate-in fade-in duration-500">
-                Ready to optimize your company workflows or set up robust custom AI chatbot agents? Book a consultation with Devendra Sharma and the Paramount engineering team in Ahmedabad today.
-              </p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-              {/* Info Items */}
-              <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 text-[#a855f7] flex-shrink-0">
-                    <Mail className="w-5 h-5" />
+          {/* Left */}
+          <div className="lg:col-span-4">
+            <div className="eyebrow-tag mb-6">Contact</div>
+            <h2 className="font-display font-semibold text-white tracking-tight mb-4" style={{ fontSize: 'clamp(24px, 3vw, 36px)', letterSpacing: '-0.02em' }}>
+              Schedule a Tech Consultation
+            </h2>
+            <p className="text-sm leading-relaxed mb-8" style={{ color: 'rgba(23,33,61,0.45)', lineHeight: 1.75 }}>
+              Book a direct consultation with Devendra Sharma & Nikita Tejwani and the Paramount engineering team in Ahmedabad.
+            </p>
+
+            <div className="flex flex-col gap-5">
+              {[
+                { Icon: Mail, label: 'Email', value: 'info@paramountindia.tech', href: 'mailto:info@paramountindia.tech' },
+                { Icon: Phone, label: 'Phone', value: '+91 76006 47428', href: 'tel:+917600647428' },
+                { Icon: MapPin, label: 'Location', value: 'Ahmedabad, Gujarat, India', href: null },
+              ].map(({ Icon, label, value, href }) => (
+                <div key={label} className="flex items-center gap-3.5">
+                  <div className="icon-box w-9 h-9 rounded-lg flex-shrink-0" style={{ width: 36, height: 36 }}>
+                    <Icon style={{ width: 15, height: 15 }} />
                   </div>
                   <div>
-                    <span className="text-xs text-foreground/40 block font-semibold uppercase tracking-wider">Email Address</span>
-                    <a href="mailto:info@paramountindia.tech" className="text-sm font-semibold text-white hover:text-[#a855f7] transition-colors">
-                      info@paramountindia.tech
-                    </a>
+                    <p className="text-xs font-medium uppercase tracking-widest mb-0.5" style={{ color: 'rgba(23,33,61,0.3)', fontSize: 9 }}>{label}</p>
+                    {href ? (
+                      <a href={href} className="text-sm font-medium text-white hover:text-indigo-400 transition-colors">{value}</a>
+                    ) : (
+                      <span className="text-sm font-medium text-white">{value}</span>
+                    )}
                   </div>
                 </div>
-
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 text-[#a855f7] flex-shrink-0">
-                    <Phone className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="text-xs text-foreground/40 block font-semibold uppercase tracking-wider">Contact Number</span>
-                    <a href="tel:+919724734308" className="text-sm font-semibold text-white hover:text-[#a855f7] transition-colors">
-                      +91 97247 34308
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 text-[#a855f7] flex-shrink-0">
-                    <MapPin className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="text-xs text-foreground/40 block font-semibold uppercase tracking-wider">Headquarters & City</span>
-                    <span className="text-sm font-semibold text-white">
-                      Ahmedabad, Gujarat, India
-                    </span>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
 
-            {/* LLP Tag */}
-            <div className="mt-12 p-4 rounded-xl bg-white/5 border border-white/5 text-xs text-hero-sub/70 leading-relaxed max-w-sm font-medium">
-              <span className="font-bold text-white block mb-1">Paramount India Technologies LLP</span>
-              Registered LLC. Owner: **Devendra Sharma**. Expertise in core IT infrastructure setup, software engineering, and artificial intelligence chatbot solutions.
+            <div className="mt-8 p-4 rounded-xl text-xs" style={{ background: 'rgba(37,99,235,0.03)', border: '1px solid rgba(37,99,235,0.06)', color: 'rgba(23,33,61,0.4)', lineHeight: 1.7 }}>
+              <strong className="text-white">Paramount India Technologies Pvt Ltd</strong><br />
+              Founders: Devendra Sharma & Nikita Tejwani. Registered IT services company specializing in enterprise software, AI, and cloud engineering.
             </div>
           </div>
 
-          {/* Right Column: Glass Form */}
-          <div className="lg:col-span-7">
-            <div className="liquid-glass rounded-3xl p-8 sm:p-10 border border-white/5 shadow-2xl relative h-full flex flex-col justify-center">
-              
+          {/* Form */}
+          <div className="lg:col-span-8">
+            <div className="rounded-2xl p-8" style={{ background: '#ffffff', border: '1px solid rgba(37,99,235,0.07)' }}>
               {isSuccess ? (
-                <div className="text-center py-12 flex flex-col items-center justify-center animate-in fade-in zoom-in-95 duration-500">
-                  <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full flex items-center justify-center mb-6">
-                    <CheckCircle className="w-8 h-8" />
+                <div className="flex flex-col items-center text-center py-10">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4" style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.3)' }}>
+                    <CheckCircle className="w-6 h-6 text-indigo-400" />
                   </div>
-                  <h3 className="font-display text-2xl font-bold text-white mb-2">Consultation Booked!</h3>
-                  <p className="text-hero-sub max-w-md mx-auto opacity-80 text-sm mb-8 leading-relaxed font-medium">
-                    Thank you. Your call has been scheduled for **{scheduledDetails.date}** during the **{scheduledDetails.timeSlot}**. Owner Devendra Sharma or a principal IT architect will contact you within that window.
+                  <h3 className="font-display font-semibold text-white mb-2" style={{ fontSize: 22 }}>Consultation Booked</h3>
+                  <p className="text-sm mb-6" style={{ color: 'rgba(23,33,61,0.5)', maxWidth: 380, lineHeight: 1.75 }}>
+                    Scheduled for <strong className="text-white">{scheduledDetails.date}</strong> during <strong className="text-white">{scheduledDetails.timeSlot}</strong>. Our team will reach out to confirm.
                   </p>
-                  <button
-                    onClick={() => setIsSuccess(false)}
-                    className="btn-hero-secondary rounded-xl px-5 py-2.5 text-xs font-semibold cursor-pointer"
-                  >
-                    Schedule Another Consult
-                  </button>
+                  <button onClick={() => setIsSuccess(false)} className="btn-secondary">Schedule Another</button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                  <div className="flex items-center gap-2.5 mb-2">
-                    <Calendar className="w-5 h-5 text-[#a855f7]" />
-                    <span className="text-sm font-semibold text-white tracking-wide">Request a Callback</span>
+                  <div className="flex items-center gap-2.5 mb-1">
+                    <Calendar className="w-4 h-4 text-indigo-400" />
+                    <span className="text-sm font-semibold text-white">Book a Callback</span>
                   </div>
 
-                  {/* Name field */}
+                  {/* Name */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs text-foreground/60 font-semibold uppercase tracking-wider">Full Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
+                    <label className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>Full Name *</label>
+                    <input type="text" name="name" value={formData.name} onChange={handleChange}
                       placeholder="e.g. Devendra Sharma"
-                      className={`bg-white/5 border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all text-white placeholder-foreground/25 font-medium ${
-                        errors.name ? 'border-red-500/50' : 'border-white/5'
-                      }`}
-                    />
-                    {errors.name && <span className="text-red-400 text-xs mt-1 font-semibold">{errors.name}</span>}
+                      className={`neo-input ${errors.name ? 'border-red-500/40' : ''}`} />
+                    {errors.name && <span className="text-xs text-red-400">{errors.name}</span>}
                   </div>
 
-                  {/* Email & Phone side-by-side */}
+                  {/* Email + Phone */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs text-foreground/60 font-semibold uppercase tracking-wider">Email Address</label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
+                      <label className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>Email *</label>
+                      <input type="email" name="email" value={formData.email} onChange={handleChange}
                         placeholder="you@company.com"
-                        className={`bg-white/5 border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all text-white placeholder-foreground/25 font-medium ${
-                          errors.email ? 'border-red-500/50' : 'border-white/5'
-                        }`}
-                      />
-                      {errors.email && <span className="text-red-400 text-xs mt-1 font-semibold">{errors.email}</span>}
+                        className={`neo-input ${errors.email ? 'border-red-500/40' : ''}`} />
+                      {errors.email && <span className="text-xs text-red-400">{errors.email}</span>}
                     </div>
-
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs text-foreground/60 font-semibold uppercase tracking-wider">Phone Number</label>
-                      <input
-                        type="text"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="+91 97247 34308"
-                        className={`bg-white/5 border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all text-white placeholder-foreground/25 font-medium ${
-                          errors.phone ? 'border-red-500/50' : 'border-white/5'
-                        }`}
-                      />
-                      {errors.phone && <span className="text-red-400 text-xs mt-1 font-semibold">{errors.phone}</span>}
+                      <label className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>Phone *</label>
+                      <input type="text" name="phone" value={formData.phone} onChange={handleChange}
+                        placeholder="+91 76006 47428"
+                        className={`neo-input ${errors.phone ? 'border-red-500/40' : ''}`} />
+                      {errors.phone && <span className="text-xs text-red-400">{errors.phone}</span>}
                     </div>
                   </div>
 
-                  {/* Preferred Date & Time Slot side-by-side */}
+                  {/* Date + Time */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs text-foreground/60 font-semibold uppercase tracking-wider flex items-center gap-1"><Calendar className="w-3.5 h-3.5 text-[#a855f7]" /> Callback Date</label>
-                      <input
-                        type="date"
-                        name="date"
-                        value={formData.date}
-                        onChange={handleChange}
-                        className={`bg-white/5 border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all text-white appearance-none cursor-pointer font-medium ${
-                          errors.date ? 'border-red-500/50' : 'border-white/5'
-                        }`}
-                      />
-                      {errors.date && <span className="text-red-400 text-xs mt-1 font-semibold">{errors.date}</span>}
+                      <label className="text-xs font-medium uppercase tracking-wider flex items-center gap-1" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>
+                        <Calendar style={{ width: 10 }} /> Date *
+                      </label>
+                      <input type="date" name="date" value={formData.date} onChange={handleChange}
+                        className={`neo-input appearance-none cursor-pointer ${errors.date ? 'border-red-500/40' : ''}`} />
+                      {errors.date && <span className="text-xs text-red-400">{errors.date}</span>}
                     </div>
-
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs text-foreground/60 font-semibold uppercase tracking-wider flex items-center gap-1"><Clock className="w-3.5 h-3.5 text-[#a855f7]" /> Time Slot</label>
-                      <div className="relative">
-                        <select
-                          name="timeSlot"
-                          value={formData.timeSlot}
-                          onChange={handleChange}
-                          className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all text-white appearance-none cursor-pointer font-medium"
-                        >
-                          {timeSlots.map((slot) => (
-                            <option key={slot.id} value={slot.id} className="bg-[#0c0926] text-white">
-                              {slot.name}
-                            </option>
-                          ))}
-                        </select>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none border-l-4 border-r-4 border-t-4 border-transparent border-t-white/60 w-0 h-0" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Service Selector */}
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs text-foreground/60 font-semibold uppercase tracking-wider">Required Service</label>
-                    <div className="relative">
-                      <select
-                        name="service"
-                        value={formData.service}
-                        onChange={handleChange}
-                        className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all text-white appearance-none cursor-pointer font-medium"
-                      >
-                        {services.map((svc) => (
-                          <option key={svc.id} value={svc.id} className="bg-[#0c0926] text-white">
-                            {svc.name}
-                          </option>
-                        ))}
+                      <label className="text-xs font-medium uppercase tracking-wider flex items-center gap-1" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>
+                        <Clock style={{ width: 10 }} /> Time Window
+                      </label>
+                      <select name="timeSlot" value={formData.timeSlot} onChange={handleChange}
+                        className="neo-input appearance-none cursor-pointer">
+                        {timeSlots.map(s => <option key={s.id} value={s.id} className="bg-black">{s.name}</option>)}
                       </select>
-                      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none border-l-4 border-r-4 border-t-4 border-transparent border-t-white/60 w-0 h-0" />
                     </div>
                   </div>
 
-                  {/* Project description */}
+                  {/* Service */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs text-foreground/60 font-semibold uppercase tracking-wider">Project Scope / Requirements</label>
-                    <textarea
-                      name="message"
-                      rows={3}
-                      value={formData.message}
-                      onChange={handleChange}
-                      placeholder="Please outline the custom software, mobile app, CRM, or chatbot support details..."
-                      className={`bg-white/5 border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all text-white placeholder-foreground/25 resize-none font-medium ${
-                        errors.message ? 'border-red-500/50' : 'border-white/5'
-                      }`}
-                    />
-                    {errors.message && <span className="text-red-400 text-xs mt-1 font-semibold">{errors.message}</span>}
+                    <label className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>Service Required</label>
+                    <select name="service" value={formData.service} onChange={handleChange}
+                      className="neo-input appearance-none cursor-pointer">
+                      {services.map(s => <option key={s.id} value={s.id} className="bg-black">{s.name}</option>)}
+                    </select>
                   </div>
 
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="btn-hero-secondary rounded-xl py-4 mt-2 text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer w-full"
-                  >
-                    {isSubmitting ? (
-                      <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    ) : (
-                      <>
-                        Confirm Consultation Callback <Send className="w-4 h-4" />
-                      </>
-                    )}
+                  {/* Message */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>Project Requirements *</label>
+                    <textarea name="message" rows={3} value={formData.message} onChange={handleChange}
+                      placeholder="Briefly describe your project or what you need help with..."
+                      className={`neo-input resize-none ${errors.message ? 'border-red-500/40' : ''}`} />
+                    {errors.message && <span className="text-xs text-red-400">{errors.message}</span>}
+                  </div>
+
+                  <button type="submit" disabled={isSubmitting} className="btn-primary justify-center mt-1">
+                    {isSubmitting
+                      ? <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      : <><Send className="w-3.5 h-3.5" /> Confirm Consultation</>}
                   </button>
                 </form>
               )}

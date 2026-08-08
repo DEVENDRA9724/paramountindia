@@ -1,197 +1,157 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Check, Info } from 'lucide-react';
+import { useState } from 'react';
 
 interface PlanProps {
   onSelectPlan: (planName: string, serviceId: string) => void;
 }
 
-interface PricingPlan {
-  name: string;
-  id: string;
-  monthlyPrice: string;
-  annualPrice: string;
-  billingText: string;
-  description: string;
-  features: string[];
-  serviceId: string;
-  isPopular: boolean;
-  glowColor: string;
-}
+const plans = [
+  {
+    id: 'starter',
+    name: 'Starter Setup',
+    monthlyPrice: '₹34,999',
+    annualPrice: '₹27,999',
+    desc: 'For growing businesses needing a solid digital foundation.',
+    serviceId: 'web-dev',
+    features: [
+      'Custom Website Development',
+      'Local SEO & Google Business',
+      'Basic Email Marketing Setup',
+      'NLP Support AI Chatbot',
+      'Chat Support (9am–6pm)',
+    ],
+    isPopular: false,
+    accent: '#315efb',
+  },
+  {
+    id: 'growth',
+    name: 'Growth Suite',
+    monthlyPrice: '₹99,999',
+    annualPrice: '₹79,999',
+    desc: 'Comprehensive stack for companies scaling their tech operations.',
+    serviceId: 'custom-software',
+    features: [
+      'Custom Software & CRM Integration',
+      'Native Mobile App (iOS/Android)',
+      'Advanced AI Bots + CRM Sync',
+      'Technical SEO & Digital Campaigns',
+      'AWS/GCP Cloud Architecture',
+      '24/7 Technical Support',
+    ],
+    isPopular: true,
+    accent: '#315efb',
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    monthlyPrice: 'Custom',
+    annualPrice: 'Custom',
+    desc: 'Full IT outsourcing, compliance, and dedicated engineering team.',
+    serviceId: 'it-support',
+    features: [
+      'Dedicated Full-Stack Engineering',
+      'Enterprise IT Asset Management',
+      'Network & Active Directory Setup',
+      'Full Database Security Audits',
+      'Unlimited AI Agent Tuning',
+      'Dedicated Account Manager + SLA',
+    ],
+    isPopular: false,
+    accent: '#315efb',
+  },
+];
 
 export const Plans: React.FC<PlanProps> = ({ onSelectPlan }) => {
-  const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('annual');
-
-  const pricingPlans: PricingPlan[] = [
-    {
-      name: 'Starter Setup',
-      id: 'plan-starter',
-      monthlyPrice: '₹34,999',
-      annualPrice: '₹27,999',
-      billingText: '/ month',
-      description: 'Essential web development, local SEO, and basic chatbot integrations for growing local businesses.',
-      features: [
-        'Custom Website Development (React/Vite)',
-        'Local SEO & Google Business Optimization',
-        'Basic Email Marketing Sequence Setups',
-        'Basic NLP Customer Support AI Chatbot',
-        'Email & Chat Technical Support (9am - 6pm)',
-      ],
-      serviceId: 'web-dev',
-      isPopular: false,
-      glowColor: 'from-[#6366f1]/10 to-transparent',
-    },
-    {
-      name: 'Growth Suite',
-      id: 'plan-growth',
-      monthlyPrice: '₹99,999',
-      annualPrice: '₹79,999',
-      billingText: '/ month',
-      description: 'Custom software systems, CRM integration, cloud architecture setup, and advanced bot configurations.',
-      features: [
-        'Custom Software & CRM Integration',
-        'Native Mobile App Development (iOS/Android)',
-        'Advanced AI Bots Syncing with Company CRM',
-        'Technical SEO Audit & Digital Campaigns',
-        'AWS/GCP Cloud Architecture Configuration',
-        'On-site/Remote Technical Support (24/7)',
-      ],
-      serviceId: 'custom-software',
-      isPopular: true,
-      glowColor: 'from-[#a855f7]/20 to-[#6366f1]/20',
-    },
-    {
-      name: 'Enterprise Operations',
-      id: 'plan-enterprise',
-      monthlyPrice: 'Custom',
-      annualPrice: 'Custom',
-      billingText: 'Quote',
-      description: 'Fully outsourced IT operations, advanced asset management, data compliance, and dedicated developers.',
-      features: [
-        'Dedicated Full-Stack Software Engineering',
-        'Enterprise IT Asset Management & Security Compliance',
-        'Network Infrastructure & Active Directory Setups',
-        'Full Database Security Audits & Migrations',
-        'Unlimited AI Chatbot and NLP Agent Tuning',
-        'Dedicated Account Manager & Immediate SLA Support',
-      ],
-      serviceId: 'it-support',
-      isPopular: false,
-      glowColor: 'from-[#fcd34d]/15 to-transparent',
-    },
-  ];
+  const [billing, setBilling] = useState<'annual' | 'monthly'>('annual');
 
   return (
-    <section id="plans" className="relative w-full py-24 px-6 md:px-12 bg-transparent overflow-visible">
-      {/* Glow highlight */}
-      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-[#a855f7]/5 blur-[120px] rounded-full pointer-events-none" />
+    <section id="plans" className="w-full py-24 px-6 md:px-12" style={{ background: '#eef3ff' }}>
+      <div className="max-w-5xl mx-auto">
 
-      <div className="max-w-6xl mx-auto">
-        {/* Title */}
+        {/* Header */}
         <div className="text-center mb-12">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a855f7] bg-[#a855f7]/10 px-3 py-1 rounded-full">
-            Transparent Pricing
-          </span>
-          <h2 className="font-display text-4xl sm:text-5xl font-normal tracking-tight mt-6 mb-4">
-            Service Tiers & <span className="bg-gradient-to-r from-[#6366f1] via-[#a855f7] to-[#fcd34d] bg-clip-text text-transparent">Agreements</span>
+          <div className="eyebrow-tag mb-5">Pricing</div>
+          <h2 className="font-display font-semibold text-white tracking-tight mb-4" style={{ fontSize: 'clamp(28px, 4vw, 44px)', letterSpacing: '-0.02em' }}>
+            Service Tiers & Agreements
           </h2>
-          <p className="text-hero-sub text-base sm:text-lg max-w-2xl mx-auto opacity-75">
-            Flexible monthly and annual service agreements built to support startup launches and enterprise IT migrations.
+          <p className="text-sm" style={{ color: 'rgba(23,33,61,0.5)', maxWidth: 440, margin: '0 auto' }}>
+            Flexible monthly and annual agreements built for startups through enterprise IT operations.
           </p>
-        </div>
 
-        {/* Toggle Billing Cycle */}
-        <div className="flex justify-center items-center gap-4 mb-16 select-none">
-          <span className={`text-sm font-medium ${billingCycle === 'monthly' ? 'text-white' : 'text-foreground/50'}`}>Monthly</span>
-          <button
-            onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'annual' : 'monthly')}
-            className="w-14 h-7 rounded-full bg-white/10 p-1 flex items-center transition-all duration-300 relative border border-white/5 cursor-pointer"
-          >
-            <div className={`w-5 h-5 rounded-full bg-white shadow-md transform transition-transform duration-300 ${billingCycle === 'annual' ? 'translate-x-7' : 'translate-x-0'}`} />
-          </button>
-          <div className="flex items-center gap-2">
-            <span className={`text-sm font-medium ${billingCycle === 'annual' ? 'text-white' : 'text-foreground/50'}`}>Annual Billing</span>
-            <span className="text-[10px] font-bold text-[#a855f7] bg-[#a855f7]/10 border border-[#a855f7]/25 px-2 py-0.5 rounded-full uppercase tracking-wider">
-              Save 20%
-            </span>
+          {/* Toggle */}
+          <div className="inline-flex items-center gap-1 mt-8 p-1 rounded-lg" style={{ background: 'rgba(37,99,235,0.04)', border: '1px solid rgba(37,99,235,0.07)' }}>
+            {(['monthly', 'annual'] as const).map(cycle => (
+              <button key={cycle} onClick={() => setBilling(cycle)}
+                className="px-5 py-2 rounded-md text-xs font-semibold transition-all duration-200"
+                style={{
+                  background: billing === cycle ? '#315efb' : 'transparent',
+                  color: billing === cycle ? '#fff' : 'rgba(23,33,61,0.5)',
+                  fontFamily: 'var(--font-sans)',
+                }}>
+                {cycle === 'monthly' ? 'Monthly' : 'Annual · Save 20%'}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Pricing Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-          {pricingPlans.map((plan) => {
-            const price = billingCycle === 'annual' ? plan.annualPrice : plan.monthlyPrice;
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {plans.map(plan => {
+            const price = billing === 'annual' ? plan.annualPrice : plan.monthlyPrice;
             const isCustom = price === 'Custom';
-
             return (
-              <div
-                key={plan.id}
-                className={`liquid-glass rounded-3xl p-8 border hover:translate-y-[-4px] transition-all duration-300 flex flex-col justify-between ${
-                  plan.isPopular 
-                    ? 'border-[#a855f7]/40 shadow-[0_0_30px_rgba(168,85,247,0.15)] scale-105 md:scale-105 z-10' 
-                    : 'border-white/5 hover:border-white/20'
-                }`}
-              >
-                {/* BACKLIGHT */}
-                <div className={`absolute inset-0 bg-gradient-to-b ${plan.glowColor} opacity-50 pointer-events-none rounded-3xl`} />
+              <div key={plan.id}
+                className="rounded-2xl p-7 flex flex-col relative"
+                style={{
+                  background: plan.isPopular ? 'rgba(99,102,241,0.07)' : '#ffffff',
+                  border: `1px solid ${plan.isPopular ? 'rgba(99,102,241,0.35)' : 'rgba(37,99,235,0.07)'}`,
+                }}>
 
-                <div className="relative z-10">
-                  {/* Top line */}
-                  <div className="flex justify-between items-center mb-6">
-                    <span className="text-sm font-bold text-white tracking-tight uppercase">{plan.name}</span>
-                    {plan.isPopular && (
-                      <span className="text-[9px] uppercase font-mono tracking-widest text-[#a855f7] bg-[#a855f7]/10 border border-[#a855f7]/30 px-2.5 py-1 rounded-full">
-                        Most Popular
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Price */}
-                  <div className="flex items-baseline gap-1.5 mb-4">
-                    <span className="font-display text-4xl sm:text-5xl font-bold text-white tracking-tight">
-                      {price}
-                    </span>
-                    <span className="text-xs text-foreground/50 font-medium">
-                      {isCustom ? '' : plan.billingText}
+                {plan.isPopular && (
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#315efb', color: '#fff', fontFamily: 'var(--font-sans)' }}>
+                      Most Popular
                     </span>
                   </div>
+                )}
 
-                  <p className="text-xs text-hero-sub/90 leading-relaxed mb-6 opacity-75 min-h-[40px]">
-                    {plan.description}
+                <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'rgba(23,33,61,0.4)', fontFamily: 'var(--font-sans)' }}>
+                  {plan.name}
+                </p>
+
+                <div className="flex items-baseline gap-1.5 mb-3">
+                  <span className="font-display font-semibold text-white" style={{ fontSize: 34, letterSpacing: '-0.02em' }}>
+                    {price}
+                  </span>
+                  {!isCustom && <span className="text-xs" style={{ color: 'rgba(23,33,61,0.4)' }}>INR / month + GST</span>}
+                </div>
+
+                <p className="text-xs mb-6 leading-relaxed" style={{ color: 'rgba(23,33,61,0.45)' }}>
+                  {plan.desc}
+                </p>
+
+                <div className="h-px mb-6" style={{ background: 'rgba(37,99,235,0.06)' }} />
+
+                <ul className="flex flex-col gap-2.5 mb-8 flex-1">
+                  {plan.features.map(f => (
+                    <li key={f} className="flex items-start gap-2.5">
+                      <Check className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: '#315efb' }} strokeWidth={2.5} />
+                      <span className="text-xs leading-relaxed" style={{ color: 'rgba(23,33,61,0.65)', fontFamily: 'var(--font-sans)' }}>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <button onClick={() => onSelectPlan(plan.name, plan.serviceId)}
+                  className={plan.isPopular ? 'btn-primary justify-center w-full' : 'btn-secondary justify-center w-full'}>
+                  {isCustom ? 'Request Proposal' : 'Get Started'}
+                </button>
+
+                {billing === 'annual' && !isCustom && (
+                  <p className="flex items-center justify-center gap-1.5 mt-3 text-xs" style={{ color: 'rgba(23,33,61,0.3)' }}>
+                    <Info className="w-3 h-3" /> Billed annually
                   </p>
-
-                  <div className="w-full h-[1px] bg-white/5 mb-6" />
-
-                  {/* Features list */}
-                  <span className="text-[10px] text-[#a855f7] uppercase tracking-widest font-bold block mb-4">What's Included:</span>
-                  <ul className="flex flex-col gap-3 mb-8">
-                    {plan.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-start gap-2.5">
-                        <Check className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-xs text-hero-sub leading-normal opacity-85">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* CTA Button */}
-                <div className="relative z-10">
-                  <button
-                    onClick={() => onSelectPlan(plan.name, plan.serviceId)}
-                    className={`w-full py-3.5 px-4 rounded-xl text-xs font-semibold tracking-wider transition-all duration-300 cursor-pointer ${
-                      plan.isPopular
-                        ? 'bg-[#a855f7] text-white hover:bg-[#a855f7]/95 shadow-[0_4px_20px_rgba(168,85,247,0.3)]'
-                        : 'bg-white/5 text-white hover:bg-white/10 border border-white/5'
-                    }`}
-                  >
-                    {isCustom ? 'Inquire Custom Proposal' : 'Select Plan'}
-                  </button>
-                  {billingCycle === 'annual' && !isCustom && (
-                    <span className="text-[10px] text-foreground/45 flex items-center justify-center gap-1.5 mt-3">
-                      <Info className="w-3.5 h-3.5 text-[#a855f7]" /> Billed annually contract
-                    </span>
-                  )}
-                </div>
-
+                )}
               </div>
             );
           })}

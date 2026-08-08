@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, BookOpen, FileText, Code, Check, Copy, Play, Terminal, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, BookOpen, FileText, Code, Check, Copy, Play } from 'lucide-react';
+
+const inter = "'Inter', system-ui, sans-serif";
 
 interface LearningPageProps {
   onBackToHome: () => void;
   activeTab?: string;
+  onNavigateToContact?: (planName: string, serviceId: string) => void;
 }
 
 export const LearningPage: React.FC<LearningPageProps> = ({ onBackToHome, activeTab = 'docs' }) => {
   const [activeSubTab, setActiveSubTab] = useState<'docs' | 'cases' | 'api'>(activeTab as any);
   const [copied, setCopied] = useState<boolean>(false);
-  
-  // API Sandbox State
+
   const [sandboxPrompt, setSandboxPrompt] = useState('How do I integrate custom CRM webhooks?');
   const [sandboxResponse, setSandboxResponse] = useState('');
   const [isSandboxLoading, setIsSandboxLoading] = useState(false);
@@ -27,28 +29,18 @@ export const LearningPage: React.FC<LearningPageProps> = ({ onBackToHome, active
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const clientScriptCode = `<!-- Copy this snippet and paste in your main index.html head -->
-<script 
-  src="https://cdn.paramountindia.tech/agent.js" 
-  data-client-id="pmnt_devendra_9724734308" 
-  data-theme="dark"
+  const clientScriptCode = `<!-- Copy snippet to your index.html head -->
+<script
+  src="https://cdn.paramountindia.tech/agent.js"
+  data-client-id="YOUR_CLIENT_ID"
+  data-theme="auto"
   async>
-</script>
-<script>
-  window.addEventListener('paramount-ready', () => {
-    window.ParamountAgent.init({
-      city: "Ahmedabad",
-      owner: "Devendra Sharma"
-    });
-  });
 </script>`;
 
   const apiSampleRequest = `curl -X POST https://api.paramountindia.tech/v1/chat/message \\
-  -H "Authorization: Bearer pmnt_sec_9724734308_ahmedabad" \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
-  -d '{
-    "message": "${sandboxPrompt}"
-  }'`;
+  -d '{ "message": "${sandboxPrompt}" }'`;
 
   const runSandboxTest = () => {
     setIsSandboxLoading(true);
@@ -58,269 +50,169 @@ export const LearningPage: React.FC<LearningPageProps> = ({ onBackToHome, active
       let msgResponse = "";
       const query = sandboxPrompt.toLowerCase();
 
-      if (query.includes('crm') || query.includes('webhook') || query.includes('sync')) {
+      if (query.includes('crm') || query.includes('webhook')) {
         msgResponse = JSON.stringify({
-          status: 200,
-          endpoint: "/v1/chat/message",
-          payload: {
-            text: "Paramount AI Agent webhook connection verified. Custom CRM sync model established for Ahmedabad network node.",
-            syncTarget: "Salesforce/HubSpot Pipeline",
-            latencyMs: 98,
-            developerAction: "PROCEED_TO_LIVE_DEPLOYMENT"
-          }
+          status: "success",
+          code: 200,
+          response: "Paramount Webhook endpoint verified. Leads from web forms and chat widgets sync instantly into Salesforce/HubSpot database schemas.",
+          latency: "112ms",
+          service: "CRM Pipeline Orchestrator"
         }, null, 2);
-      } else if (query.includes('cloud') || query.includes('setup') || query.includes('server') || query.includes('aws')) {
+      } else if (query.includes('bot') || query.includes('ai')) {
         msgResponse = JSON.stringify({
-          status: 200,
-          endpoint: "/v1/chat/message",
-          payload: {
-            text: "Cloud VPC cluster setup logs: Auto-scaling configuration group active on AWS Multi-Zone subnets. Security group failover router active.",
-            activeClusters: 3,
-            uptimeGoal: "99.99%",
-            developerAction: "MONITOR_LIVE_UPLINKS"
-          }
-        }, null, 2);
-      } else if (query.includes('chatbot') || query.includes('bot') || query.includes('agent')) {
-        msgResponse = JSON.stringify({
-          status: 200,
-          endpoint: "/v1/chat/message",
-          payload: {
-            text: "AI Chatbot node initialized. System listening on socket port 8080. Vector store embedding sync is running.",
-            greeting: "Hello, looking for IT setups or software development in Ahmedabad?",
-            latencyMs: 45,
-            developerAction: "TUNING_COMPLETE"
-          }
+          status: "success",
+          code: 200,
+          response: "Paramount NLP Bot Agent active. Intent recognized. Auto-routing enabled.",
+          latency: "94ms",
+          service: "AI Agent Core"
         }, null, 2);
       } else {
         msgResponse = JSON.stringify({
-          status: 200,
-          endpoint: "/v1/chat/message",
-          payload: {
-            text: `Developer query processed: "${sandboxPrompt}". Core AI chatbot online and routing to Paramount support services at +91 97247 34308.`,
-            assignedDirector: "Devendra Sharma",
-            city: "Ahmedabad",
-            developerAction: "TRIGGER_CLIENT_CALLBACK"
-          }
+          status: "success",
+          code: 200,
+          text: `Developer query processed: "${sandboxPrompt}". AI agent routing to Paramount support services at +91 76006 47428.`,
+          latency: "140ms"
         }, null, 2);
       }
 
       setSandboxResponse(msgResponse);
       setIsSandboxLoading(false);
-    }, 1500);
+    }, 900);
   };
 
   return (
-    <div className="w-full min-h-screen bg-transparent relative overflow-visible py-12 px-6 md:px-12">
-      <div className="max-w-6xl mx-auto relative z-10">
-        
-        {/* Navigation back */}
-        <button 
+    <div style={{ background: '#f7f9fc', minHeight: '100vh', padding: '48px 0 96px 0', color: '#17213d' }}>
+      <div className="max-w-6xl mx-auto px-6 md:px-12">
+
+        {/* Back button */}
+        <button
           onClick={onBackToHome}
-          className="flex items-center gap-2 text-xs font-semibold text-[#a855f7] hover:text-white transition-colors duration-200 mb-10 cursor-pointer"
+          style={{ fontFamily: inter, fontSize: 12, fontWeight: 600, color: '#315efb', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 40 }}
         >
-          <ArrowLeft className="w-4 h-4" /> BACK TO HOMEPAGE
+          <ArrowLeft style={{ width: 14, height: 14 }} /> BACK TO HOMEPAGE
         </button>
 
-        {/* Title */}
-        <div className="mb-16">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#fcd34d] bg-[#fcd34d]/10 px-3 py-1 rounded-full">
-            Developer Hub & SDK Portals
-          </span>
-          <h1 className="font-display text-4xl sm:text-6xl font-normal tracking-tight mt-6 mb-4">
-            Developer Portal & <span className="bg-gradient-to-r from-[#6366f1] via-[#a855f7] to-[#fcd34d] bg-clip-text text-transparent">SDKs</span>
+        {/* Header */}
+        <div style={{ marginBottom: 40 }}>
+          <div className="eyebrow-tag" style={{ marginBottom: 16, display: 'inline-flex' }}>Developer Portal</div>
+          <h1 style={{ fontFamily: inter, fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1.1, color: '#17213d', marginBottom: 16 }}>
+            Knowledge Base &amp; API Docs
           </h1>
-          <p className="text-hero-sub text-base sm:text-lg max-w-3xl opacity-75 font-medium">
-            Integrate chat widgets, access RESTful API reference schemas, and test live prompts inside our server sandbox console.
+          <p style={{ fontFamily: inter, fontSize: 15, fontWeight: 400, lineHeight: 1.7, color: 'rgba(23,33,61,0.45)', maxWidth: 540 }}>
+            Technical documentation, API integration guides, and system architecture blueprints from Paramount India Technologies Pvt Ltd.
           </p>
         </div>
 
-        {/* Developer split layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-16">
-          
-          {/* Left: Tab options & Content (lg:col-span-7) */}
-          <div className="lg:col-span-7 flex flex-col gap-6">
-            <div className="flex border-b border-white/5 pb-2 gap-2">
-              <button
-                onClick={() => setActiveSubTab('docs')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
-                  activeSubTab === 'docs' ? 'bg-[#a855f7] text-white shadow-lg' : 'text-foreground/60 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <BookOpen className="w-4 h-4" /> Installation
+        {/* Tab Navigation */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 36, borderBottom: '1px solid rgba(37,99,235,0.06)', paddingBottom: 16 }}>
+          {[
+            { id: 'docs', label: 'Documentation', icon: BookOpen },
+            { id: 'cases', label: 'Case Summaries', icon: FileText },
+            { id: 'api', label: 'API Reference', icon: Code },
+          ].map(tab => {
+            const Icon = tab.icon;
+            const isActive = activeSubTab === tab.id;
+            return (
+              <button key={tab.id} onClick={() => setActiveSubTab(tab.id as any)}
+                style={{
+                  fontFamily: inter, fontSize: 13, fontWeight: 600, padding: '8px 18px', borderRadius: 8,
+                  background: isActive ? '#315efb' : 'transparent',
+                  color: isActive ? '#fff' : 'rgba(23,33,61,0.45)',
+                  border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8,
+                  transition: 'all 0.2s',
+                }}>
+                <Icon style={{ width: 15, height: 15 }} />
+                {tab.label}
               </button>
-              <button
-                onClick={() => setActiveSubTab('cases')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
-                  activeSubTab === 'cases' ? 'bg-[#a855f7] text-white shadow-lg' : 'text-foreground/60 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <FileText className="w-4 h-4" /> Migration Logs
-              </button>
-              <button
-                onClick={() => setActiveSubTab('api')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
-                  activeSubTab === 'api' ? 'bg-[#a855f7] text-white shadow-lg' : 'text-foreground/60 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <Code className="w-4 h-4" /> API Schemes
-              </button>
-            </div>
+            );
+          })}
+        </div>
 
-            {/* Tab panel container */}
-            <div className="liquid-glass rounded-2xl p-6 md:p-8 border border-white/5 min-h-[400px] flex flex-col justify-between">
-              <div>
-                {activeSubTab === 'docs' && (
-                  <div className="flex flex-col gap-5 animate-in fade-in duration-300">
-                    <div>
-                      <h3 className="font-display text-xl font-semibold text-white tracking-tight">JavaScript Embedding SDK</h3>
-                      <p className="text-[11px] text-foreground/45">Client-side client tag script integration guidelines.</p>
-                    </div>
-                    <p className="text-xs text-hero-sub/90 leading-relaxed font-medium">
-                      Embed the Paramount customer service bot into your website container by loading the asynchronous helper tags script. Place the snippet before the closing <code>&lt;/head&gt;</code> element.
-                    </p>
+        {/* Tab 1: Docs */}
+        {activeSubTab === 'docs' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <div className="surface-card" style={{ padding: 28, borderRadius: 16 }}>
+              <h3 style={{ fontFamily: inter, fontSize: 18, fontWeight: 700, color: '#17213d', marginBottom: 12 }}>
+                Integration Guide — AI Chatbot Web Widget
+              </h3>
+              <p style={{ fontFamily: inter, fontSize: 14, fontWeight: 400, lineHeight: 1.65, color: 'rgba(23,33,61,0.45)', marginBottom: 20 }}>
+                Embed our autonomous AI chat widget into any web application or CMS with a single script tag.
+              </p>
 
-                    <div className="relative bg-black/60 rounded-xl p-4 border border-white/5 font-mono text-[10px] text-emerald-400 overflow-x-auto">
-                      <button 
-                        onClick={() => handleCopyText(clientScriptCode)}
-                        className="absolute top-3.5 right-3.5 p-1.5 bg-white/5 hover:bg-white/10 rounded border border-white/5 text-foreground transition-colors cursor-pointer"
-                      >
-                        {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                      </button>
-                      <pre>{clientScriptCode}</pre>
-                    </div>
-
-                    <div className="p-4 rounded-xl bg-white/5 border border-white/5 text-xs text-hero-sub/80 leading-relaxed flex flex-col gap-1.5 font-medium">
-                      <span className="font-bold text-white block">Parameters configurations:</span>
-                      <span>&bull; <code>data-client-id</code>: Unique API identifier generated for your company.</span>
-                      <span>&bull; <code>city</code>: Directs AI agents routing calls (set to <code>Ahmedabad</code>).</span>
-                    </div>
-                  </div>
-                )}
-
-                {activeSubTab === 'cases' && (
-                  <div className="flex flex-col gap-6 animate-in fade-in duration-300">
-                    <div>
-                      <h3 className="font-display text-xl font-semibold text-white tracking-tight">Migration Operational Logs</h3>
-                      <p className="text-[11px] text-foreground/45">Documentation details of core database server migrations.</p>
-                    </div>
-
-                    <div className="flex flex-col gap-4">
-                      <div className="p-4 rounded-xl bg-white/5 border border-white/5 text-xs text-hero-sub leading-relaxed font-medium">
-                        <span className="font-bold text-white block mb-1">MIGRATION-872: Salesforce Pipeline Sync</span>
-                        Migrated a local excel database holding 50k customer cards into HubSpot CRM. Sync pipelines execute hourly checking duplicates, updating contact details, and notifying sales leads instantly.
-                      </div>
-
-                      <div className="p-4 rounded-xl bg-white/5 border border-white/5 text-xs text-hero-sub leading-relaxed font-medium">
-                        <span className="font-bold text-white block mb-1">DEPLOYMENT-343: VPC load balancers</span>
-                        Configured AWS Elastic Load Balancer (ELB) syncing client databases across multi-region subnets. Outfitted auto-scaling parameters to trigger container setups during traffic spikes.
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {activeSubTab === 'api' && (
-                  <div className="flex flex-col gap-5 animate-in fade-in duration-300">
-                    <div>
-                      <h3 className="font-display text-xl font-semibold text-white tracking-tight">Restful API Message Schemas</h3>
-                      <p className="text-[11px] text-foreground/45">Programmatic API endpoint parameters.</p>
-                    </div>
-
-                    <div className="flex flex-col gap-3 font-medium">
-                      <div>
-                        <span className="text-[10px] font-bold text-[#a855f7] uppercase tracking-wider block mb-1">Endpoint</span>
-                        <div className="bg-black/60 rounded-xl p-2.5 px-4 border border-white/5 font-mono text-[10px] text-white">
-                          POST https://api.paramountindia.tech/v1/chat/message
-                        </div>
-                      </div>
-
-                      <div>
-                        <span className="text-[10px] font-bold text-foreground/45 uppercase tracking-wider block mb-1">Required Headers</span>
-                        <div className="bg-black/60 rounded-xl p-3 border border-white/5 font-mono text-[10px] text-[#fcd34d] flex flex-col gap-1">
-                          <span>Authorization: Bearer YOUR_SECRET_KEY</span>
-                          <span>Content-Type: application/json</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="mt-8 pt-4 border-t border-white/5 flex items-center gap-2 text-[10px] text-[#a855f7] font-semibold uppercase tracking-wider">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" /> Authentications Active
+              <div style={{ background: '#f7f9fc', border: '1px solid rgba(37,99,235,0.08)', borderRadius: 10, padding: 16, position: 'relative' }}>
+                <button onClick={() => handleCopyText(clientScriptCode)}
+                  style={{ position: 'absolute', top: 12, right: 12, fontFamily: inter, fontSize: 11, fontWeight: 600, color: 'rgba(23,33,61,0.5)', background: 'rgba(37,99,235,0.06)', border: 'none', padding: '4px 10px', borderRadius: 6, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}>
+                  {copied ? <Check style={{ width: 12, height: 12, color: '#00a88f' }} /> : <Copy style={{ width: 12, height: 12 }} />}
+                  {copied ? 'Copied' : 'Copy Code'}
+                </button>
+                <pre style={{ fontFamily: 'monospace', fontSize: 12, color: '#315efb', margin: 0, overflowX: 'auto', lineHeight: 1.6 }}>
+                  {clientScriptCode}
+                </pre>
               </div>
             </div>
           </div>
+        )}
 
-          {/* Right: Interactive API Sandbox Console (lg:col-span-5) */}
-          <div className="lg:col-span-5 flex flex-col gap-6">
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a855f7] bg-[#a855f7]/10 px-3 py-1.5 rounded-lg w-fit flex items-center gap-2">
-              <Terminal className="w-4 h-4" /> Live API Sandbox
-            </span>
+        {/* Tab 2: Case Summaries */}
+        {activeSubTab === 'cases' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[
+              { title: 'Full-Stack ERP Digitization', category: 'Enterprise Software', desc: 'Re-architected legacy operations with React, Node.js, and PostgreSQL for real-time inventory management.' },
+              { title: 'Multi-Cloud AWS Failover', category: 'Cloud Infrastructure', desc: 'Configured Kubernetes clusters across 3 zones with zero-downtime database replication.' },
+              { title: 'Automated CRM Lead Pipeline', category: 'CRM Integration', desc: 'Synced webform leads into Salesforce with automated SMS/email triggers and lead scoring.' },
+              { title: 'AI Assistant Support Bot', category: 'AI Automation', desc: 'Custom-trained NLP agent handling customer inquiries with zero human intervention.' },
+            ].map((c, i) => (
+              <div key={i} className="surface-card" style={{ padding: 24, borderRadius: 16 }}>
+                <span style={{ fontFamily: inter, fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#315efb', marginBottom: 8, display: 'block' }}>{c.category}</span>
+                <h3 style={{ fontFamily: inter, fontSize: 16, fontWeight: 600, color: '#17213d', marginBottom: 8 }}>{c.title}</h3>
+                <p style={{ fontFamily: inter, fontSize: 13, fontWeight: 400, lineHeight: 1.6, color: 'rgba(23,33,61,0.45)' }}>{c.desc}</p>
+              </div>
+            ))}
+          </div>
+        )}
 
-            <div className="liquid-glass rounded-2xl border border-white/5 flex flex-col flex-1 min-h-[400px] overflow-hidden shadow-2xl">
-              {/* Console header */}
-              <div className="px-5 py-3.5 border-b border-white/5 flex justify-between items-center bg-white/[0.01]">
-                <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 bg-[#a855f7] rounded-full animate-ping" />
-                  <span className="text-xs font-semibold text-white tracking-tight">developer_console</span>
-                </div>
-                <span className="text-[9px] uppercase font-mono tracking-widest text-[#fcd34d] bg-[#fcd34d]/10 px-2 py-0.5 rounded border border-[#fcd34d]/20">
-                  Gujarat_Node
-                </span>
+        {/* Tab 3: API Reference */}
+        {activeSubTab === 'api' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <div className="surface-card" style={{ padding: 28, borderRadius: 16 }}>
+              <h3 style={{ fontFamily: inter, fontSize: 18, fontWeight: 700, color: '#17213d', marginBottom: 12 }}>
+                Interactive API Preview
+              </h3>
+              <p style={{ fontFamily: inter, fontSize: 14, fontWeight: 400, lineHeight: 1.65, color: 'rgba(23,33,61,0.45)', marginBottom: 20 }}>
+                Preview the request and response format locally. No live endpoint or credential is used.
+              </p>
+
+              {/* Sample Request */}
+              <div style={{ background: '#f7f9fc', border: '1px solid rgba(37,99,235,0.08)', borderRadius: 10, padding: 16, marginBottom: 20 }}>
+                <pre style={{ fontFamily: 'monospace', fontSize: 12, color: 'rgba(23,33,61,0.7)', margin: 0, overflowX: 'auto', lineHeight: 1.6 }}>
+                  {apiSampleRequest}
+                </pre>
               </div>
 
-              {/* Console Playground Body */}
-              <div className="flex-1 p-5 flex flex-col justify-between gap-5 bg-black/40">
-                {/* Inputs prompt */}
-                <div className="flex flex-col gap-2">
-                  <label className="text-[10px] text-foreground/45 uppercase tracking-wider font-semibold">Test Message Request Payload</label>
-                  <input
-                    type="text"
-                    value={sandboxPrompt}
-                    onChange={(e) => setSandboxPrompt(e.target.value)}
-                    placeholder="Type message (e.g. Test custom CRM webhook sync)..."
-                    className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-white/20 transition-all text-white placeholder-foreground/20 font-mono"
-                  />
-                </div>
-
-                {/* Shell Preview */}
-                <div className="flex flex-col gap-2">
-                  <span className="text-[10px] text-foreground/45 uppercase tracking-wider font-semibold">Shell Command Request</span>
-                  <div className="bg-black/80 rounded-xl p-3 border border-white/5 font-mono text-[9px] text-[#fcd34d] overflow-x-auto whitespace-pre leading-relaxed">
-                    <code>{apiSampleRequest}</code>
-                  </div>
-                </div>
-
-                {/* Response Code Block */}
-                <div className="flex-1 flex flex-col gap-2">
-                  <span className="text-[10px] text-foreground/45 uppercase tracking-wider font-semibold">JSON Response payload</span>
-                  <div className="bg-black/90 rounded-xl p-4 border border-white/5 font-mono text-[9px] text-cyan-400 overflow-y-auto h-40 max-h-40 leading-relaxed">
-                    {isSandboxLoading ? (
-                      <div className="flex flex-col gap-1 items-center justify-center h-full text-foreground/50">
-                        <span className="inline-block w-4 h-4 border-2 border-[#a855f7]/30 border-t-[#a855f7] rounded-full animate-spin mb-2" />
-                        <span>Sending request...</span>
-                      </div>
-                    ) : sandboxResponse ? (
-                      <pre>{sandboxResponse}</pre>
-                    ) : (
-                      <span className="text-foreground/30 italic">Click "Run Sandbox Test" to dispatch API call...</span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Run button */}
-                <button
-                  onClick={runSandboxTest}
-                  disabled={isSandboxLoading || !sandboxPrompt.trim()}
-                  className="btn-hero-secondary rounded-xl py-3 text-xs font-semibold tracking-wider flex items-center justify-center gap-2 cursor-pointer w-full"
-                >
-                  <Play className="w-4 h-4 text-emerald-400 fill-emerald-400" /> Run Sandbox Test
+              {/* Console Input */}
+              <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
+                <input type="text" value={sandboxPrompt} onChange={e => setSandboxPrompt(e.target.value)}
+                  className="neo-input" style={{ flex: 1, fontSize: 13 }} />
+                <button onClick={runSandboxTest} disabled={isSandboxLoading} className="btn-primary" style={{ flexShrink: 0 }}>
+                  <Play style={{ width: 14, height: 14 }} /> Run Preview
                 </button>
               </div>
+
+              {/* Output */}
+              {isSandboxLoading && (
+                <p style={{ fontFamily: inter, fontSize: 13, color: '#315efb' }}>Executing request...</p>
+              )}
+              {sandboxResponse && (
+                <div style={{ background: '#f7f9fc', border: '1px solid rgba(37,99,235,0.08)', borderRadius: 10, padding: 16 }}>
+                  <pre style={{ fontFamily: 'monospace', fontSize: 12, color: '#00a88f', margin: 0, overflowX: 'auto', lineHeight: 1.6 }}>
+                    {sandboxResponse}
+                  </pre>
+                </div>
+              )}
             </div>
           </div>
+        )}
 
-        </div>
       </div>
     </div>
   );

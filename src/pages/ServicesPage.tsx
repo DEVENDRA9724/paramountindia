@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { 
-  Code2, Smartphone, Globe, Layers, Cpu, Bot, Cloud, 
+import {
+  Code2, Smartphone, Globe, Layers, Cpu, Bot, Cloud,
   Network, Share2, Mail, Search, Palette, Box, Activity,
   ArrowLeft, Terminal, ShieldAlert
 } from 'lucide-react';
@@ -91,7 +91,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onBackToHome, onNavi
       techStack: ['OpenAI APIs', 'Python', 'FastAPI', 'Llama Index', 'Vector Databases', 'LangChain'],
       sla: 'Average 1.2s response time SLA, monthly intent tuning hotfixes',
       deliverables: ['Interactive chat widget script', 'Training dataset ingestion pipelines', 'Sync interfaces with HubSpot/Salesforce', 'Conversation analytics console'],
-      glowColor: 'from-[#a855f7]/10 to-[#6366f1]/10',
+      glowColor: 'from-[#a855f7]/10 to-[#315efb]/10',
     },
     {
       id: 'cloud-setup',
@@ -184,10 +184,10 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onBackToHome, onNavi
   ];
 
   const filteredServices = servicesDetails.filter(service => {
-    const matchesSearch = service.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    const matchesSearch = service.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           service.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           service.techStack.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
-    
+
     const matchesCategory = selectedCategory === 'all' || service.category === selectedCategory;
 
     return matchesSearch && matchesCategory;
@@ -196,9 +196,9 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onBackToHome, onNavi
   return (
     <div className="w-full min-h-screen bg-transparent relative overflow-visible py-12 px-6 md:px-12">
       <div className="max-w-6xl mx-auto relative z-10">
-        
+
         {/* Navigation back header */}
-        <button 
+        <button
           onClick={onBackToHome}
           className="flex items-center gap-2 text-xs font-semibold text-[#a855f7] hover:text-white transition-colors duration-200 mb-10 cursor-pointer"
         >
@@ -206,15 +206,13 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onBackToHome, onNavi
         </button>
 
         {/* Title */}
-        <div className="mb-16">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a855f7] bg-[#a855f7]/10 px-3 py-1 rounded-full">
-            Technical Competence Directory
-          </span>
-          <h1 className="font-display text-4xl sm:text-6xl font-normal tracking-tight mt-6 mb-4">
-            IT & <span className="bg-gradient-to-r from-[#6366f1] via-[#a855f7] to-[#fcd34d] bg-clip-text text-transparent">AI Competencies</span>
+        <div style={{ marginBottom: 56 }}>
+          <div className="eyebrow-tag" style={{ marginBottom: 16 }}>Technical Competence Directory</div>
+          <h1 style={{ fontFamily: "'Inter',sans-serif", fontSize: 'clamp(28px,4vw,48px)', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1.1, color: '#17213d', marginBottom: 16 }}>
+            IT &amp; AI Competencies
           </h1>
-          <p className="text-hero-sub text-base sm:text-lg max-w-3xl opacity-75 font-medium">
-            Explore the complete directory of Paramount India Technologies LLP's technical services, technology stacks, SLA parameters, and production deliverables.
+          <p style={{ fontFamily: "'Inter',sans-serif", fontSize: 15, fontWeight: 400, lineHeight: 1.7, color: 'rgba(23,33,61,0.45)', maxWidth: 560 }}>
+            Explore the complete directory of Paramount India Technologies Pvt Ltd's technical services, technology stacks, SLA parameters, and production deliverables.
           </p>
         </div>
 
@@ -259,7 +257,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onBackToHome, onNavi
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredServices.map((service) => {
             const Icon = service.icon;
-            
+
             const getHoverGlowClass = (cat: string) => {
               switch (cat) {
                 case 'ai': return 'hover:border-[#a855f7]/30 hover:shadow-[0_0_25px_rgba(168,85,247,0.12)]';
@@ -271,62 +269,57 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onBackToHome, onNavi
             };
 
             return (
-              <div 
+              <div
                 key={service.id}
                 className={`liquid-glass group rounded-2xl p-8 border border-white/5 transition-all duration-300 flex flex-col justify-between h-full relative ${getHoverGlowClass(service.category)}`}
               >
                 {/* BACKLIGHT */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${service.glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl blur-md`} />
-                
+
                 <div className="relative z-10">
                   {/* Top Header */}
-                  <div className="flex justify-between items-start mb-6">
-                    <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 group-hover:border-[#a855f7]/30 transition-colors">
-                      <Icon className="w-5 h-5 text-[#a855f7]" />
+                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:16 }}>
+                    <div className="icon-box" style={{ width:36, height:36, borderRadius:9 }}>
+                      <Icon style={{ width:16, height:16 }} />
                     </div>
-                    <span className="text-[9px] text-foreground/45 font-bold uppercase tracking-widest mt-1">
+                    <span style={{ fontFamily:"'Inter',sans-serif", fontSize:10, fontWeight:600, letterSpacing:'0.1em', textTransform:'uppercase', color:'rgba(23,33,61,0.3)' }}>
                       {service.category === 'infra' ? 'Cloud & Network' : service.category === 'marketing' ? 'Marketing & SEO' : service.category}
                     </span>
                   </div>
 
-                  {/* Title */}
-                  <h3 className="font-display text-xl font-semibold text-white mb-3 tracking-tight">
+                  <h3 style={{ fontFamily:"'Inter',sans-serif", fontSize:16, fontWeight:600, letterSpacing:'-0.015em', lineHeight:1.3, color:'#17213d', marginBottom:10 }}>
                     {service.title}
                   </h3>
 
-                  {/* Description */}
-                  <p className="text-xs text-hero-sub/90 leading-relaxed mb-6 opacity-75 min-h-[48px] font-medium">
+                  <p style={{ fontFamily:"'Inter',sans-serif", fontSize:13, fontWeight:400, lineHeight:1.65, color:'rgba(23,33,61,0.42)', marginBottom:18 }}>
                     {service.description}
                   </p>
 
-                  {/* Tech stack */}
-                  <div className="flex flex-wrap gap-1.5 mb-6">
+                  <div style={{ display:'flex', flexWrap:'wrap', gap:6, marginBottom:18 }}>
                     {service.techStack.map((tech) => (
-                      <span key={tech} className="bg-white/5 border border-white/5 text-[9px] font-semibold text-white/80 px-2.5 py-0.5 rounded font-mono">
+                      <span key={tech} style={{ fontFamily:'monospace', fontSize:11, fontWeight:500, color:'rgba(23,33,61,0.55)', background:'rgba(37,99,235,0.04)', border:'1px solid rgba(37,99,235,0.07)', padding:'2px 8px', borderRadius:5 }}>
                         {tech}
                       </span>
                     ))}
                   </div>
 
-                  {/* Deliverables */}
-                  <div className="mb-6 pt-4 border-t border-white/5">
-                    <span className="text-[9px] text-[#a855f7] font-bold uppercase tracking-widest block mb-3">Key Deliverables</span>
-                    <ul className="flex flex-col gap-2">
+                  <div style={{ paddingTop:14, borderTop:'1px solid rgba(37,99,235,0.06)', marginBottom:14 }}>
+                    <span style={{ fontFamily:"'Inter',sans-serif", fontSize:10, fontWeight:600, letterSpacing:'0.1em', textTransform:'uppercase', color:'#315efb', display:'block', marginBottom:10 }}>Deliverables</span>
+                    <ul style={{ display:'flex', flexDirection:'column', gap:8 }}>
                       {service.deliverables.slice(0, 3).map((deliv, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
-                          <div className="w-1 h-1 bg-[#a855f7] rounded-full mt-1.5 flex-shrink-0" />
-                          <span className="text-[11px] text-hero-sub leading-normal opacity-85 font-medium">{deliv}</span>
+                        <li key={idx} style={{ display:'flex', alignItems:'flex-start', gap:10 }}>
+                          <div style={{ width:4, height:4, borderRadius:'50%', background:'#315efb', flexShrink:0, marginTop:6 }} />
+                          <span style={{ fontFamily:"'Inter',sans-serif", fontSize:13, fontWeight:400, lineHeight:1.55, color:'rgba(23,33,61,0.5)' }}>{deliv}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
                 </div>
 
-                {/* Bottom: SLA & Button */}
-                <div className="relative z-10 pt-4 border-t border-white/5 mt-auto">
-                  <div className="mb-4">
-                    <span className="text-[9px] text-[#fcd34d] font-bold uppercase tracking-widest block mb-1 flex items-center gap-1"><Terminal className="w-3.5 h-3.5" /> SLA Commitment</span>
-                    <span className="text-[11px] text-white/95 font-semibold leading-tight block min-h-[32px]">{service.sla}</span>
+                <div style={{ paddingTop:14, borderTop:'1px solid rgba(37,99,235,0.06)', marginTop:'auto' }}>
+                  <div style={{ marginBottom:14 }}>
+                    <span style={{ fontFamily:"'Inter',sans-serif", fontSize:10, fontWeight:600, letterSpacing:'0.1em', textTransform:'uppercase', color:'rgba(23,33,61,0.3)', display:'flex', alignItems:'center', gap:6, marginBottom:4 }}><Terminal style={{ width:12, height:12 }} /> SLA</span>
+                    <span style={{ fontFamily:"'Inter',sans-serif", fontSize:12, fontWeight:500, lineHeight:1.5, color:'rgba(23,33,61,0.55)', display:'block' }}>{service.sla}</span>
                   </div>
                   <button
                     onClick={() => onNavigateToContact(service.id, `Hi Devendra, I would like to inquire about Paramount's "${service.title}" service. Let's arrange a call.`)}

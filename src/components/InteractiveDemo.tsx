@@ -1,29 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Bot, User, Sparkles, Shield, Cpu, Zap } from 'lucide-react';
+import { Send, Bot, User, Cpu, Zap, Shield } from 'lucide-react';
+
+const inter = "'Inter', system-ui, sans-serif";
 
 interface Message {
   sender: 'bot' | 'user';
   text: string;
-  timestamp: Date;
 }
 
 export const InteractiveDemo: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
-    {
-      sender: 'bot',
-      text: "Hello! I am Paramount Core AI Agent. I can help explain our software development, cloud infrastructure, SEO, and custom AI chatbot services. What would you like to build today?",
-      timestamp: new Date(),
-    },
+    { sender: 'bot', text: "Hello! I am Paramount Core AI Agent. I can explain our software engineering, cloud infrastructure, SEO, and custom AI chatbot architectures. What would you like to explore today?" },
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   const predefinedPrompts = [
-    "Tell me about CRM & software development",
-    "How do you build custom AI Chatbots?",
+    "Tell me about custom enterprise software & CRM",
+    "How do you deploy autonomous AI Chatbots?",
     "Can you handle cloud & IT infrastructure migration?",
-    "What SEO & marketing services do you offer?",
+    "What SEO & growth services do you provide?",
   ];
 
   useEffect(() => {
@@ -32,108 +29,89 @@ export const InteractiveDemo: React.FC = () => {
 
   const handleSendMessage = (text: string) => {
     if (!text.trim()) return;
-
-    // Add user message
-    const userMsg: Message = {
-      sender: 'user',
-      text,
-      timestamp: new Date(),
-    };
-    setMessages((prev) => [...prev, userMsg]);
+    setMessages(prev => [...prev, { sender: 'user', text }]);
     setInputValue('');
     setIsTyping(true);
 
-    // Simulate AI response logic
     setTimeout(() => {
       let botText = "";
-      const lowerText = text.toLowerCase();
-
-      if (lowerText.includes('crm') || lowerText.includes('software') || lowerText.includes('custom software')) {
-        botText = "At Paramount India Technologies LLP, we engineer custom enterprise software and tailormade CRM integrations from scratch. We analyze your company workflow to eliminate bottlenecks and build systems utilizing modern stacks like React, Node.js, and TypeScript, backed by founder Devendra Sharma's quality standards.";
-      } else if (lowerText.includes('bot') || lowerText.includes('chat') || lowerText.includes('ai') || lowerText.includes('agent')) {
-        botText = "We build state-of-the-art NLP chatbots and autonomous agents designed to hook into your data systems (like CRM, databases, or API). They automate client scheduling, customer support, lead capturing, and CRM syncs in real-time.";
-      } else if (lowerText.includes('cloud') || lowerText.includes('infra') || lowerText.includes('support') || lowerText.includes('migration')) {
-        botText = "We offer cloud migration and setup (AWS, Azure, GCP) as well as core company network infrastructure installation. We also provide full IT Asset Management, database security, and on-site technical support migrations.";
-      } else if (lowerText.includes('seo') || lowerText.includes('marketing') || lowerText.includes('digital') || lowerText.includes('email')) {
-        botText = "Our marketing suites cover technical SEO optimization to drive organic traffic, data-driven email automation campaign setups, UI/UX conversions audits, and complete digital advertising campaigns tailored to your target demographics.";
+      const t = text.toLowerCase();
+      if (t.includes('crm') || t.includes('software')) {
+        botText = "At Paramount India Technologies Pvt Ltd, we engineer custom enterprise software and CRM integrations from scratch — React, Node.js, and TypeScript — tailored to your exact workflows.";
+      } else if (t.includes('bot') || t.includes('chat') || t.includes('ai')) {
+        botText = "We build NLP chatbots and autonomous agents that hook into your CRM and database — automating lead capture, customer support, and syncs in real-time.";
+      } else if (t.includes('cloud') || t.includes('infra') || t.includes('migration')) {
+        botText = "We handle cloud migrations on AWS, Azure, and GCP, plus full IT asset management, network setup, and database security audits.";
+      } else if (t.includes('seo') || t.includes('marketing')) {
+        botText = "Our marketing suite covers technical SEO, email automation, UI/UX conversion audits, and digital ad campaigns — with monthly ROI reporting.";
       } else {
-        botText = "That sounds like a exciting project! We specialize in custom software development, cloud infrastructure setup, SEO marketing, and automated AI chat agents. Would you like to schedule a consult with our founder Devendra Sharma to discuss details?";
+        botText = "That sounds like an exciting project! We specialize in custom software, cloud, SEO, and AI agents. Would you like to schedule a consultation with our engineering team?";
       }
-
-      const botMsg: Message = {
-        sender: 'bot',
-        text: botText,
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, botMsg]);
+      setMessages(prev => [...prev, { sender: 'bot', text: botText }]);
       setIsTyping(false);
-    }, 1200);
+    }, 1100);
   };
 
   return (
-    <section id="demo" className="relative w-full py-24 px-6 md:px-12 bg-transparent overflow-visible">
-      {/* Back glow decoration */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-[#6366f1]/5 blur-[100px] rounded-full pointer-events-none" />
+    <section id="demo" className="contrast-section w-full" style={{ background: '#0d1633', padding: '96px 0', borderTop: '1px solid rgba(129,140,248,0.16)' }}>
+      <div className="max-w-6xl mx-auto px-6 md:px-12">
 
-      <div className="max-w-6xl mx-auto">
-        {/* Title */}
-        <div className="text-center mb-16">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#fcd34d] bg-[#fcd34d]/10 px-3 py-1 rounded-full">
-            Interactive Experience
-          </span>
-          <h2 className="font-display text-4xl sm:text-5xl font-normal tracking-tight mt-6 mb-4">
-            Test Drive Our <span className="bg-gradient-to-r from-[#6366f1] via-[#a855f7] to-[#fcd34d] bg-clip-text text-transparent">AI Agents</span>
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: 56 }}>
+          <div className="eyebrow-tag" style={{ marginBottom: 16, display: 'inline-flex' }}>Interactive Experience</div>
+          <h2 style={{ fontFamily: inter, fontSize: 'clamp(26px,3.8vw,42px)', fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1.12, color: '#f5f7ff', marginBottom: 14 }}>
+            Test Drive Our AI Chatbot Agent
           </h2>
-          <p className="text-hero-sub text-base sm:text-lg max-w-2xl mx-auto opacity-75">
-            Interact with our simulated AI core. We build, program, and connect custom autonomous chat agents to handle client workflows.
+          <p style={{ fontFamily: inter, fontSize: 15, fontWeight: 400, lineHeight: 1.7, color: 'rgba(226,232,255,0.45)', maxWidth: 480, margin: '0 auto' }}>
+            Interact with our simulated AI core. We build, program, and connect custom autonomous chat agents to handle enterprise client workflows.
           </p>
         </div>
 
-        {/* Dashboard and Chat Console Wrapper */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {/* Left Column: AI Agent Specs & Info (liquid-glass) */}
-          <div className="lg:col-span-4 liquid-glass rounded-2xl p-8 border border-white/5 flex flex-col justify-between">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6" style={{ alignItems: 'stretch' }}>
+
+          {/* Left: Specs */}
+          <div className="lg:col-span-4 surface-card" style={{ padding: 24, borderRadius: 16, display: 'flex', flexDirection: 'column', gap: 20 }}>
             <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-lg bg-[#a855f7]/10 flex items-center justify-center border border-[#a855f7]/30">
-                  <Sparkles className="w-5 h-5 text-[#a855f7]" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+                <div className="icon-box" style={{ width: 36, height: 36, borderRadius: 9 }}>
+                  <Bot style={{ width: 16, height: 16 }} />
                 </div>
                 <div>
-                  <h3 className="font-display text-lg font-semibold text-white">Paramount Core V2</h3>
-                  <p className="text-xs text-foreground/50">Status: Active & Listening</p>
+                  <h3 style={{ fontFamily: inter, fontSize: 15, fontWeight: 600, color: '#f5f7ff', letterSpacing: '-0.01em', lineHeight: 1.2 }}>Paramount Core V2</h3>
+                  <p style={{ fontFamily: inter, fontSize: 12, color: '#00a88f', fontWeight: 500, marginTop: 3, display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#00a88f', display: 'inline-block', animation: 'pulse 2s infinite' }} />
+                    Active & Listening
+                  </p>
                 </div>
               </div>
-
-              <p className="text-sm text-hero-sub/90 leading-relaxed mb-6">
+              <p style={{ fontFamily: inter, fontSize: 13, fontWeight: 400, lineHeight: 1.65, color: 'rgba(226,232,255,0.42)' }}>
                 Our custom AI bots interface with your operational database and CRM, acting as virtual agents capable of automating complex sequences.
               </p>
-
-              {/* Stats */}
-              <div className="flex flex-col gap-4">
-                <div className="flex justify-between items-center py-2.5 border-b border-white/5">
-                  <span className="text-xs text-foreground/60 flex items-center gap-2"><Cpu className="w-3.5 h-3.5" /> Language Model</span>
-                  <span className="text-xs font-semibold text-white">Custom Llama / GPT API</span>
-                </div>
-                <div className="flex justify-between items-center py-2.5 border-b border-white/5">
-                  <span className="text-xs text-foreground/60 flex items-center gap-2"><Zap className="w-3.5 h-3.5" /> Avg Response Speed</span>
-                  <span className="text-xs font-semibold text-emerald-400">~1.2 seconds</span>
-                </div>
-                <div className="flex justify-between items-center py-2.5 border-b border-white/5">
-                  <span className="text-xs text-foreground/60 flex items-center gap-2"><Shield className="w-3.5 h-3.5" /> Enterprise Security</span>
-                  <span className="text-xs font-semibold text-blue-400">Fully Compliant</span>
-                </div>
-              </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/5">
-              <span className="text-xs text-foreground/40 font-medium block mb-3">Quick Prompts:</span>
-              <div className="flex flex-col gap-2">
+            {/* Stats */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+              {[
+                { icon: Cpu, label: 'Language Model', value: 'Custom LLM / GPT API', color: '#315efb' },
+                { icon: Zap, label: 'Avg Response Speed', value: '~1.2 seconds', color: '#00a88f' },
+                { icon: Shield, label: 'Enterprise Security', value: 'Fully Compliant', color: '#315efb' },
+              ].map(({ icon: Icon, label, value, color }) => (
+                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid rgba(129,140,248,0.06)' }}>
+                  <span style={{ fontFamily: inter, fontSize: 12, color: 'rgba(226,232,255,0.4)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <Icon style={{ width: 13, height: 13, color }} /> {label}
+                  </span>
+                  <span style={{ fontFamily: inter, fontSize: 12, fontWeight: 600, color }}>{value}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Prompts */}
+            <div>
+              <p style={{ fontFamily: inter, fontSize: 10, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(226,232,255,0.3)', marginBottom: 10 }}>Quick Prompts</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {predefinedPrompts.map((prompt, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => handleSendMessage(prompt)}
-                    className="text-left w-full text-xs py-2 px-3 bg-white/5 hover:bg-white/10 hover:text-white rounded-lg border border-white/5 transition-all duration-200"
-                  >
+                  <button key={idx} onClick={() => handleSendMessage(prompt)}
+                    style={{ fontFamily: inter, fontSize: 12, fontWeight: 500, color: 'rgba(226,232,255,0.55)', textAlign: 'left', padding: '8px 12px', background: 'rgba(129,140,248,0.03)', border: '1px solid rgba(129,140,248,0.07)', borderRadius: 8, cursor: 'pointer', transition: 'all 0.2s', lineHeight: 1.4 }}>
                     {prompt}
                   </button>
                 ))}
@@ -141,88 +119,54 @@ export const InteractiveDemo: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Chat Console */}
-          <div className="lg:col-span-8 liquid-glass rounded-2xl border border-white/5 flex flex-col h-[550px] overflow-hidden">
-            {/* Console Header */}
-            <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-white/1">
-              <div className="flex items-center gap-2.5">
-                <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse" />
-                <span className="text-sm font-semibold tracking-tight text-white">Paramount AI Live Chat Console</span>
+          {/* Right: Chat */}
+          <div className="lg:col-span-8" style={{ background: '#121c3a', border: '1px solid rgba(129,140,248,0.07)', borderRadius: 16, display: 'flex', flexDirection: 'column', height: 520, overflow: 'hidden' }}>
+            {/* Header */}
+            <div style={{ padding: '14px 20px', borderBottom: '1px solid rgba(129,140,248,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(129,140,248,0.02)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#00a88f' }} />
+                <span style={{ fontFamily: inter, fontSize: 13, fontWeight: 600, color: '#f5f7ff' }}>Paramount AI Live Chat Console</span>
               </div>
-              <span className="text-[10px] uppercase font-mono tracking-widest text-[#a855f7] bg-[#a855f7]/10 px-2 py-0.5 rounded border border-[#a855f7]/25">
-                Developer Mode
+              <span style={{ fontFamily: inter, fontSize: 11, fontWeight: 600, color: '#315efb', background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', padding: '3px 10px', borderRadius: 100 }}>
+                Sandbox Mode
               </span>
             </div>
 
-            {/* Chat Box Messages Container */}
-            <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-4">
+            {/* Messages */}
+            <div style={{ flex: 1, padding: 20, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
               {messages.map((msg, idx) => (
-                <div
-                  key={idx}
-                  className={`flex gap-3 max-w-[85%] ${
-                    msg.sender === 'user' ? 'ml-auto flex-row-reverse' : 'mr-auto'
-                  }`}
-                >
-                  {/* Avatar */}
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 border ${
-                      msg.sender === 'user'
-                        ? 'bg-white/10 border-white/20'
-                        : 'bg-[#a855f7]/10 border-[#a855f7]/20 text-[#a855f7]'
-                    }`}
-                  >
-                    {msg.sender === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                <div key={idx} style={{ display: 'flex', gap: 10, maxWidth: '80%', alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start', flexDirection: msg.sender === 'user' ? 'row-reverse' : 'row' }}>
+                  <div style={{ width: 30, height: 30, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: msg.sender === 'user' ? '#315efb' : 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.2)' }}>
+                    {msg.sender === 'user' ? <User style={{ width: 14, height: 14, color: '#fff' }} /> : <Bot style={{ width: 14, height: 14, color: '#315efb' }} />}
                   </div>
-
-                  {/* Message Bubble */}
-                  <div
-                    className={`rounded-2xl p-4 text-sm leading-relaxed ${
-                      msg.sender === 'user'
-                        ? 'bg-foreground text-background font-medium rounded-tr-none'
-                        : 'bg-white/5 border border-white/5 text-foreground/90 rounded-tl-none'
-                    }`}
-                  >
+                  <div style={{ padding: '10px 14px', borderRadius: 12, fontFamily: inter, fontSize: 13, fontWeight: 400, lineHeight: 1.65, background: msg.sender === 'user' ? '#315efb' : 'rgba(129,140,248,0.04)', color: msg.sender === 'user' ? '#fff' : 'rgba(226,232,255,0.75)', border: msg.sender === 'user' ? 'none' : '1px solid rgba(129,140,248,0.07)' }}>
                     {msg.text}
                   </div>
                 </div>
               ))}
-
               {isTyping && (
-                <div className="flex gap-3 max-w-[80%] mr-auto">
-                  <div className="w-8 h-8 rounded-full bg-[#a855f7]/10 border border-[#a855f7]/20 text-[#a855f7] flex items-center justify-center">
-                    <Bot className="w-4 h-4" />
+                <div style={{ display: 'flex', gap: 10, alignSelf: 'flex-start', alignItems: 'center' }}>
+                  <div style={{ width: 30, height: 30, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.2)' }}>
+                    <Bot style={{ width: 14, height: 14, color: '#315efb' }} />
                   </div>
-                  <div className="bg-white/5 border border-white/5 rounded-2xl rounded-tl-none p-4 flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 bg-foreground/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <div className="w-1.5 h-1.5 bg-foreground/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <div className="w-1.5 h-1.5 bg-foreground/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                  <div style={{ padding: '10px 14px', borderRadius: 12, background: 'rgba(129,140,248,0.04)', border: '1px solid rgba(129,140,248,0.07)' }}>
+                    <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+                      {[0,1,2].map(i => <div key={i} style={{ width: 5, height: 5, borderRadius: '50%', background: '#315efb', opacity: 0.6, animation: `pulse ${0.6 + i * 0.15}s infinite` }} />)}
+                    </div>
                   </div>
                 </div>
               )}
               <div ref={chatEndRef} />
             </div>
 
-            {/* Input Form */}
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSendMessage(inputValue);
-              }}
-              className="p-4 border-t border-white/5 bg-white/1 flex gap-2"
-            >
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Ask about CRM, custom software, cloud migrations, SEO..."
-                className="flex-1 bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all text-white placeholder-foreground/40"
-              />
-              <button
-                type="submit"
-                disabled={!inputValue.trim()}
-                className="bg-[#a855f7] hover:bg-[#a855f7]/90 text-white rounded-xl p-3 flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:hover:bg-[#a855f7] cursor-pointer"
-              >
-                <Send className="w-4 h-4" />
+            {/* Input */}
+            <form onSubmit={e => { e.preventDefault(); handleSendMessage(inputValue); }}
+              style={{ padding: '12px 16px', borderTop: '1px solid rgba(129,140,248,0.06)', display: 'flex', gap: 10, alignItems: 'center', background: 'rgba(129,140,248,0.01)' }}>
+              <input type="text" value={inputValue} onChange={e => setInputValue(e.target.value)}
+                placeholder="Ask about CRM software, AI bots, or cloud setups..."
+                className="neo-input" style={{ flex: 1, fontSize: 13 }} />
+              <button type="submit" className="btn-primary" style={{ padding: '10px 14px', borderRadius: 10, flexShrink: 0 }}>
+                <Send style={{ width: 15, height: 15 }} />
               </button>
             </form>
           </div>
