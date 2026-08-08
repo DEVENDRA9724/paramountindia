@@ -272,79 +272,73 @@ section::before {
 .brand-lockup {
   display: inline-flex;
   align-items: center;
-  gap: 11px;
+  gap: 14px;
+  user-select: none;
 }
 
 .brand-mark {
   position: relative;
-  width: 38px;
-  height: 38px;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  background: linear-gradient(145deg, #315efb, #6c4cff);
-  border: 1px solid rgba(49, 94, 251, 0.2);
-  clip-path: polygon(50% 0, 100% 25%, 88% 100%, 12% 100%, 0 25%);
-  box-shadow: 0 8px 20px rgba(49, 94, 251, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.brand-mark::before {
-  content: '';
-  position: absolute;
-  width: 32px;
-  height: 5px;
-  background: #ff6b83;
-  transform: rotate(-48deg) translate(1px, 1px);
-  box-shadow: 0 0 16px rgba(255, 92, 122, 0.45);
+.brand-lockup:hover .brand-mark {
+  transform: translateY(-1px) scale(1.03);
 }
 
-.brand-mark__letter {
-  position: relative;
-  z-index: 1;
-  margin-left: -2px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 23px;
-  font-weight: 700;
-  line-height: 1;
-  color: #fff;
-  text-shadow: 2px 2px 0 #315efb;
-}
-
-.brand-mark__edge {
-  position: absolute;
-  right: 4px;
-  top: 5px;
-  width: 5px;
-  height: 5px;
-  background: #ffd66b;
+.brand-mark-svg {
+  display: block;
 }
 
 .brand-wordmark {
   display: flex;
   flex-direction: column;
-  line-height: 1;
+  line-height: 1.15;
 }
 
 .brand-wordmark__name {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.045em;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
   color: #17213d;
+  white-space: nowrap;
 }
 
 .brand-wordmark__sub {
-  margin-top: 4px;
-  font-size: 8px;
+  margin-top: 2px;
+  font-size: 9.5px;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #315efb;
+  white-space: nowrap;
 }
 
-.brand-lockup--compact .brand-mark {
-  width: 34px;
-  height: 34px;
+.brand-lockup--compact {
+  gap: 10px;
+}
+
+.brand-lockup--compact .brand-wordmark__name {
+  font-size: 14px;
+}
+
+.brand-lockup--compact .brand-wordmark__sub {
+  font-size: 8px;
+  letter-spacing: 0.14em;
+}
+
+footer .brand-wordmark__name,
+.contrast-section .brand-wordmark__name {
+  color: #ffffff !important;
+}
+
+footer .brand-wordmark__sub,
+.contrast-section .brand-wordmark__sub {
+  color: #5b82ff !important;
 }
 
 .hero-kicker {
