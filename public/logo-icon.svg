@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 40 42" fill="none">
+  <defs>
+    <clipPath id="pentagonClip">
+      <path d="M 20 2 L 38 11 L 32 40 L 8 40 L 2 11 Z" />
+    </clipPath>
+    <linearGradient id="pentagonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#5850ec" />
+    </linearGradient>
+  </defs>
+
+  <!-- Base Pentagon -->
+  <path d="M 20 2 L 38 11 L 32 40 L 8 40 L 2 11 Z" fill="url(#pentagonGrad)" />
+
+  <!-- Diagonal Coral-Red Stripe -->
+  <rect x="-8" y="20" width="52" height="5.5" fill="#f43f5e" transform="rotate(-40 20 21)" clip-path="url(#pentagonClip)" />
+
+  <!-- Yellow Top-Right Accent Square -->
+  <rect x="28.5" y="8" width="5" height="5" fill="#fbbf24" clip-path="url(#pentagonClip)" />
+
+  <!-- White Letter P -->
+  <text x="10.5" y="29.5" fill="#ffffff" font-family="'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif" font-weight="800" font-size="23">P</text>
+</svg>
