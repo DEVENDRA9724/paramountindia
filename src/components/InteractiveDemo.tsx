@@ -14,7 +14,7 @@ export const InteractiveDemo: React.FC = () => {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const chatEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const predefinedPrompts = [
     "Tell me about custom enterprise software & CRM",
@@ -24,7 +24,11 @@ export const InteractiveDemo: React.FC = () => {
   ];
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messages.length > 1 || isTyping) {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      }
+    }
   }, [messages, isTyping]);
 
   const handleSendMessage = (text: string) => {
@@ -291,7 +295,7 @@ export const InteractiveDemo: React.FC = () => {
             </div>
 
             {/* Messages */}
-            <div style={{ flex: 1, padding: 22, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div ref={chatContainerRef} style={{ flex: 1, padding: 22, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
               {messages.map((msg, idx) => (
                 <div 
                   key={idx} 
@@ -357,7 +361,6 @@ export const InteractiveDemo: React.FC = () => {
                   </div>
                 </div>
               )}
-              <div ref={chatEndRef} />
             </div>
 
             {/* Input */}

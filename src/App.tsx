@@ -49,6 +49,12 @@ function App() {
   const [prefillContactMessage, setPrefillContactMessage] = useState('');
 
   useEffect(() => {
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
+  useEffect(() => {
     const handlePopState = () => setView(PATH_TO_VIEW[window.location.pathname] ?? 'home');
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -66,7 +72,7 @@ function App() {
       const nextView = target as ViewType;
       setView(nextView);
       window.history.pushState({}, '', VIEW_TO_PATH[nextView]);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'instant' });
       return;
     }
 
