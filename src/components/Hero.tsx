@@ -132,8 +132,8 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenLearningModal }) =
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-0" />
 
       {/* Ambient background glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] pointer-events-none z-0"
-        style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(49,94,251,0.15) 0%, rgba(255,92,122,0.08) 42%, transparent 76%)' }} />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] pointer-events-none z-0"
+        style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(49,94,251,0.18) 0%, rgba(255,92,122,0.1) 45%, transparent 80%)' }} />
 
       <div className="hero-aurora hero-aurora--one" aria-hidden="true" />
       <div className="hero-aurora hero-aurora--two" aria-hidden="true" />
@@ -144,13 +144,13 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenLearningModal }) =
 
       <Navbar onNavigate={onNavigate} onOpenLearningModal={onOpenLearningModal} activePage="home" />
 
-      {/* Image-led landing banner */}
-      <div className="home-banner-stage relative z-10 flex-1 px-4 md:px-8 py-6 md:py-10">
-        <div className="home-banner-frame animate-page-entry">
+      {/* Full-width edge-to-edge landing banner */}
+      <div className="home-banner-stage relative z-10 flex-1 w-full p-0">
+        <div className="home-banner-frame animate-page-entry w-full">
           <img
             src="/og.png"
             alt="Paramount India Technologies — Engineering Without Limits"
-            className="home-banner-image"
+            className="home-banner-image w-full"
           />
           <h1 className="sr-only">Paramount India Technologies — Engineering Without Limits</h1>
           <div className="home-banner-actions">
@@ -163,7 +163,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenLearningModal }) =
           </div>
         </div>
 
-        <div className="home-banner-proof animate-page-entry" aria-label="Company highlights">
+        <div className="home-banner-proof animate-page-entry w-full max-w-6xl mx-auto px-4 my-6" aria-label="Company highlights">
           <span><strong>14+</strong> Core capabilities</span>
           <span><strong>24/7</strong> SLA support</span>
           <span><strong>99.9%</strong> Uptime target</span>

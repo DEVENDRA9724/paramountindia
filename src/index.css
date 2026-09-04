@@ -662,30 +662,33 @@ nav .text-white {
 /* Image-led Home landing page */
 .home-banner-stage {
   width: 100%;
-  max-width: 1600px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .home-banner-frame {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(49, 94, 251, 0.12);
-  border-radius: 28px;
+  border: none;
+  border-radius: 0;
   background: #fff;
-  box-shadow: 0 28px 80px rgba(48, 64, 126, 0.16);
+  box-shadow: 0 10px 40px rgba(48, 64, 126, 0.08);
+  width: 100%;
   transition: transform 300ms ease, box-shadow 300ms ease;
 }
 
 .home-banner-frame:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 34px 90px rgba(48, 64, 126, 0.2);
+  transform: none;
+  box-shadow: 0 15px 50px rgba(48, 64, 126, 0.12);
 }
 
 .home-banner-image {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 1.906 / 1;
+  min-height: 480px;
+  max-height: 82vh;
   object-fit: cover;
 }
 
@@ -879,24 +882,28 @@ nav .text-white {
 }
 
 @media (max-width: 800px) {
-  .home-banner-frame { border-radius: 18px; }
+  .home-banner-stage { width: 100%; margin: 0; padding: 0; }
+  .home-banner-frame { border-radius: 0; border: none; box-shadow: none; width: 100%; }
+  .home-banner-image { width: 100%; height: auto; min-height: auto; aspect-ratio: 1.906 / 1; object-fit: contain; object-position: center; }
   .home-banner-actions {
-    position: static;
+    position: relative;
+    width: 100%;
+    padding: 16px 20px;
+    background: transparent;
     justify-content: center;
-    padding: 14px;
-    background: #fff;
+    gap: 10px;
   }
-  .home-banner-proof { grid-template-columns: repeat(2, 1fr); }
+  .home-banner-proof { grid-template-columns: repeat(2, 1fr); margin: 16px 16px 24px; border-radius: 14px; }
   .section-heading-row { align-items: start; flex-direction: column; }
   .sitemap-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
-  .home-banner-stage { padding-inline: 10px; }
-  .home-banner-image { aspect-ratio: auto; min-height: 310px; object-position: 57% center; }
-  .home-banner-actions { flex-direction: column; }
+  .home-banner-stage { padding-inline: 0; margin: 0; width: 100%; }
+  .home-banner-image { width: 100%; height: auto; min-height: auto; aspect-ratio: 1.906 / 1; object-fit: contain; object-position: center; }
+  .home-banner-actions { flex-direction: column; padding: 14px 16px; }
   .home-banner-actions > * { width: 100%; justify-content: center; }
-  .home-banner-proof { grid-template-columns: 1fr; }
+  .home-banner-proof { grid-template-columns: repeat(2, 1fr); margin: 12px 12px 20px; }
 }
 
 @media (max-width: 640px) {
