@@ -2,7 +2,17 @@
   "name": "paramountindia",
   "compatibility_date": "2026-09-04",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    "headers": {
+      "/*": {
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Frame-Options": "DENY",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Permissions-Policy": "geolocation=(), microphone=(), camera=()",
+        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'none';"
+      }
+    }
   },
   "observability": {
     "logs": {

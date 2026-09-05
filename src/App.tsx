@@ -132,7 +132,7 @@ function App() {
 
         {/* Home View */}
         {view === 'home' && (
-          <div className="flex flex-col justify-between flex-1 animate-page-entry">
+          <main className="flex flex-col justify-between flex-1 animate-page-entry">
             <Hero
               onNavigate={handleNavigate}
               onOpenLearningModal={handleOpenLearningPage}
@@ -148,7 +148,7 @@ function App() {
               prefillMessage={prefillContactMessage}
             />
             <Footer onNavigate={handleNavigate} />
-          </div>
+          </main>
         )}
 
         {/* Services Sub-page */}

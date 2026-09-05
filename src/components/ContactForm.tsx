@@ -139,8 +139,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedService = 'cus
 
                   {/* Name */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>Full Name *</label>
-                    <input type="text" name="name" value={formData.name} onChange={handleChange}
+                    <label htmlFor="name" className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>Full Name *</label>
+                    <input id="name" type="text" name="name" value={formData.name} onChange={handleChange}
                       placeholder="e.g. Devendra Sharma"
                       className={`neo-input ${errors.name ? 'border-red-500/40' : ''}`} />
                     {errors.name && <span className="text-xs text-red-400">{errors.name}</span>}
@@ -149,15 +149,15 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedService = 'cus
                   {/* Email + Phone */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>Email *</label>
-                      <input type="email" name="email" value={formData.email} onChange={handleChange}
+                      <label htmlFor="email" className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>Email *</label>
+                      <input id="email" type="email" name="email" value={formData.email} onChange={handleChange}
                         placeholder="you@company.com"
                         className={`neo-input ${errors.email ? 'border-red-500/40' : ''}`} />
                       {errors.email && <span className="text-xs text-red-400">{errors.email}</span>}
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>Phone *</label>
-                      <input type="text" name="phone" value={formData.phone} onChange={handleChange}
+                      <label htmlFor="phone" className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>Phone *</label>
+                      <input id="phone" type="text" name="phone" value={formData.phone} onChange={handleChange}
                         placeholder="+91 76006 47428"
                         className={`neo-input ${errors.phone ? 'border-red-500/40' : ''}`} />
                       {errors.phone && <span className="text-xs text-red-400">{errors.phone}</span>}
@@ -167,18 +167,18 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedService = 'cus
                   {/* Date + Time */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-medium uppercase tracking-wider flex items-center gap-1" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>
+                      <label htmlFor="date" className="text-xs font-medium uppercase tracking-wider flex items-center gap-1" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>
                         <Calendar style={{ width: 10 }} /> Date *
                       </label>
-                      <input type="date" name="date" value={formData.date} onChange={handleChange}
+                      <input id="date" type="date" name="date" value={formData.date} onChange={handleChange}
                         className={`neo-input appearance-none cursor-pointer ${errors.date ? 'border-red-500/40' : ''}`} />
                       {errors.date && <span className="text-xs text-red-400">{errors.date}</span>}
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-medium uppercase tracking-wider flex items-center gap-1" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>
+                      <label htmlFor="timeSlot" className="text-xs font-medium uppercase tracking-wider flex items-center gap-1" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>
                         <Clock style={{ width: 10 }} /> Time Window
                       </label>
-                      <select name="timeSlot" value={formData.timeSlot} onChange={handleChange}
+                      <select id="timeSlot" name="timeSlot" value={formData.timeSlot} onChange={handleChange}
                         className="neo-input appearance-none cursor-pointer">
                         {timeSlots.map(s => <option key={s.id} value={s.id} className="bg-black">{s.name}</option>)}
                       </select>
@@ -187,8 +187,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedService = 'cus
 
                   {/* Service */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>Service Required</label>
-                    <select name="service" value={formData.service} onChange={handleChange}
+                    <label htmlFor="service" className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>Service Required</label>
+                    <select id="service" name="service" value={formData.service} onChange={handleChange}
                       className="neo-input appearance-none cursor-pointer">
                       {services.map(s => <option key={s.id} value={s.id} className="bg-black">{s.name}</option>)}
                     </select>
@@ -196,14 +196,14 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedService = 'cus
 
                   {/* Message */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>Project Requirements *</label>
-                    <textarea name="message" rows={3} value={formData.message} onChange={handleChange}
+                    <label htmlFor="message" className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(23,33,61,0.4)', fontSize: 10 }}>Project Requirements *</label>
+                    <textarea id="message" name="message" rows={3} value={formData.message} onChange={handleChange}
                       placeholder="Briefly describe your project or what you need help with..."
                       className={`neo-input resize-none ${errors.message ? 'border-red-500/40' : ''}`} />
                     {errors.message && <span className="text-xs text-red-400">{errors.message}</span>}
                   </div>
 
-                  <button type="submit" disabled={isSubmitting} className="btn-primary justify-center mt-1">
+                  <button type="submit" disabled={isSubmitting} aria-label="Submit consultation request" className="btn-primary justify-center mt-1">
                     {isSubmitting
                       ? <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       : <><Send className="w-3.5 h-3.5" /> Confirm Consultation</>}

@@ -113,7 +113,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, onOpenLearningModal,
         </div>
 
         {/* Mobile toggle */}
-        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-1.5 rounded-lg hover:bg-white/5 transition-colors">
+        <button aria-label="Toggle navigation menu" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-1.5 rounded-lg hover:bg-white/5 transition-colors">
           {mobileMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
         </button>
       </nav>
