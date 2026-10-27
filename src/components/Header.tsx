@@ -1,6 +1,8 @@
 import React from 'react';
 import { ArrowUpRight, ShieldCheck, Mail } from 'lucide-react';
 
+import { ParamountLogo } from './ParamountLogo';
+
 interface HeaderProps {
   onOpenContact: () => void;
   onOpenProducts: () => void;
@@ -20,9 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4 relative z-30">
       {/* Brand Identity - Clean, single-line, zero awkward wrapping */}
       <div className="flex items-center gap-3 shrink-0">
-        <div className="w-10 h-10 rounded-xl bg-[#0a152d] text-white flex items-center justify-center font-bold text-sm tracking-wider shadow-xs border border-slate-800 shrink-0">
-          <span className="font-display">PIT</span>
-        </div>
+        <ParamountLogo className="w-10 h-10" />
         <div className="flex flex-col min-w-0">
           <span className="font-display font-semibold text-slate-900 text-base sm:text-[17px] tracking-tight whitespace-nowrap leading-tight">
             Paramount India Technologies

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Mail, MapPin, ArrowUp, ShieldCheck } from 'lucide-react';
+import { ParamountLogo } from './ParamountLogo';
 
 interface FooterProps {
   onOpenContact: (productName?: string) => void;
@@ -33,9 +34,7 @@ export const Footer: React.FC<FooterProps> = ({
         {/* Brand & Corporate Identification */}
         <div className="md:col-span-5 space-y-3">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#0a152d] text-white flex items-center justify-center font-bold text-sm shadow-xs">
-              <span className="font-display">PIT</span>
-            </div>
+            <ParamountLogo className="w-9 h-9" />
             <div>
               <span className="font-display font-semibold text-slate-900 tracking-tight text-base block">
                 PARAMOUNT INDIA TECHNOLOGIES PRIVATE LIMITED

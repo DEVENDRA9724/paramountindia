@@ -16,6 +16,7 @@ import {
   Building2,
   Sparkles,
 } from 'lucide-react';
+import { ParamountLogo } from './ParamountLogo';
 
 interface ProductsModalProps {
   isOpen: boolean;
@@ -225,9 +226,7 @@ export const ProductsModal: React.FC<ProductsModalProps> = ({
             {/* Header with Legal Badge */}
             <div className="px-6 py-5 sm:px-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-[#0a152d] text-white flex items-center justify-center shadow-sm">
-                  <Building2 className="w-5 h-5 text-blue-400" />
-                </div>
+                <ParamountLogo className="w-10 h-10" />
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="font-display text-xl font-semibold text-[#0a1b33]">
