@@ -1,0 +1,7 @@
+# Robots.txt for Paramount India Technologies Private Limited
+# https://paramountindiatechnologies.com/
+
+User-agent: *
+Allow: /
+
+Sitemap: https://paramountindiatechnologies.com/sitemap.xml
